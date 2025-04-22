@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login – Accessible Portal</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background-color: #f9f9f9;
+      color: #1a1a1a;
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    main {
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 600;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.25rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 0.25rem;
+    }
+
+    input:focus {
+      border-color: #0066cc;
+      outline: 3px solid #cce4ff;
+    }
+
+    .form-actions {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    button {
+      padding: 0.75rem;
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 0.25rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #004999;
+    }
+
+    .form-error {
+      color: #b30000;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      border: 0;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      clip-path: inset(100%);
+      white-space: nowrap;
+    }
+
+    a {
+      color: #0066cc;
+    }
+
+    a:focus {
+      outline: 2px dashed #0066cc;
+      outline-offset: 3px;
+    }
+  </style>
+</head>
+<body>
+  <main role="main" aria-labelledby="login-title">
+    <h1 id="login-title">Secure Member Login</h1>
+    <p>Access your account to manage settings, view transactions, and more.</p>
+
+    <form id="login-form" aria-describedby="login-instructions" novalidate>
+      <p id="login-instructions" class="sr-only">All fields are required. Use your registered email and password.</p>
+
+      <label for="email">Email address</label>
+      <input 
+        type="email" 
+        id="email" 
+        name="email" 
+        autocomplete="email" 
+        required 
+        aria-required="true"
+      />
+
+      <label for="password">Password</label>
+      <input 
+        type="password" 
+        id="password" 
+        name="password" 
+        autocomplete="current-password" 
+        required 
+        aria-required="true"
+      />
+
+      <div id="form-error" class="form-error" role="alert" aria-live="assertive" hidden></div>
+
+      <div class="form-actions">
+        <button type="submit">Log in</button>
+        <a href="#" role="link">Forgot your password?</a>
+      </div>
+    </form>
+  </main>
+
+  <script>
+    const form = document.getElementById('login-form');
+    const errorBox = document.getElementById('form-error');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const email = form.email.value.trim();
+      const password = form.password.value.trim();
+      errorBox.hidden = true;
+
+      if (!email || !password) {
+        errorBox.textContent = 'Both email and password are required.';
+        errorBox.hidden = false;
+        return;
+      }
+
+      if (!email.includes('@')) {
+        errorBox.textContent = 'Please enter a valid email address.';
+        errorBox.hidden = false;
+        return;
+      }
+
+      // Simulate successful login
+      alert('Login successful! (Demo)');
+    });
+  </script>
+</body>
+</html>

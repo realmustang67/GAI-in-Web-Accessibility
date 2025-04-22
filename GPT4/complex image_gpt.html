@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quarterly Sales Bar Chart</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      color: #222;
+      margin: 0;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .chart-container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    canvas {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    th, td {
+      border: 1px solid #aaa;
+      padding: 0.5rem;
+      text-align: left;
+    }
+
+    th {
+      background-color: #eee;
+    }
+
+    .sr-only {
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    #data-table {
+      display: none;
+    }
+
+    #data-table.active {
+      display: block;
+    }
+
+    #sales-chart[aria-hidden="true"] {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <main class="chart-container" role="main">
+    <h1>Quarterly Sales Report - 2024</h1>
+
+    <p id="chart-desc">
+      Bar chart comparing sales figures across four quarters in 2024 for the North America region.
+    </p>
+
+    <!-- Canvas chart with ARIA attributes -->
+    <canvas
+      id="sales-chart"
+      width="600"
+      height="400"
+      role="img"
+      aria-labelledby="chart-title chart-desc"
+      tabindex="0"
+    ></canvas>
+
+    <!-- Button to toggle data table -->
+    <button id="toggle-view" aria-controls="data-table" aria-expanded="false">
+      View Data Table
+    </button>
+
+    <!-- Accessible data table alternative to the chart -->
+    <div id="data-table" role="region" aria-label="Quarterly sales data table" tabindex="-1">
+      <table>
+        <caption>Sales figures in USD for each quarter of 2024</caption>
+        <thead>
+          <tr>
+            <th scope="col">Quarter</th>
+            <th scope="col">Sales (USD)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Q1</td><td>$120,000</td></tr>
+          <tr><td>Q2</td><td>$150,000</td></tr>
+          <tr><td>Q3</td><td>$170,000</td></tr>
+          <tr><td>Q4</td><td>$200,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script>
+    const canvas = document.getElementById("sales-chart");
+    const ctx = canvas.getContext("2d");
+
+    const data = [120000, 150000, 170000, 200000];
+    const labels = ["Q1", "Q2", "Q3", "Q4"];
+    const colors = ["#4e79a7", "#f28e2b", "#e15759", "#76b7b2"];
+
+    // Draw bar chart
+    function drawChart() {
+      const width = canvas.width;
+      const height = canvas.height;
+      const max = Math.max(...data);
+      const barWidth = 100;
+      const spacing = 40;
+
+      ctx.clearRect(0, 0, width, height);
+      ctx.font = "16px Arial";
+      ctx.textAlign = "center";
+
+      data.forEach((value, index) => {
+        const x = spacing + index * (barWidth + spacing);
+        const barHeight = (value / max) * (height - 80);
+        const y = height - barHeight - 30;
+
+        ctx.fillStyle = colors[index];
+        ctx.fillRect(x, y, barWidth, barHeight);
+
+        ctx.fillStyle = "#000";
+        ctx.fillText(labels[index], x + barWidth / 2, height - 10);
+        ctx.fillText(`$${(value / 1000).toFixed(0)}k`, x + barWidth / 2, y - 10);
+      });
+    }
+
+    drawChart();
+
+    // Toggle between chart and data table for accessibility
+    const toggleButton = document.getElementById("toggle-view");
+    const dataTable = document.getElementById("data-table");
+
+    toggleButton.addEventListener("click", () => {
+      const isExpanded = toggleButton.getAttribute("aria-expanded") === "true";
+      toggleButton.setAttribute("aria-expanded", String(!isExpanded));
+      dataTable.classList.toggle("active");
+      canvas.setAttribute("aria-hidden", String(!isExpanded));
+      if (!isExpanded) {
+        dataTable.focus();
+        toggleButton.textContent = "Hide Data Table";
+      } else {
+        toggleButton.textContent = "View Data Table";
+      }
+    });
+  </script>
+</body>
+</html>

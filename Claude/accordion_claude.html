@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sustainable Gardening Practices - Accordion Guide</title>
+    <style>
+        /* Base styles */
+        :root {
+            --primary-color: #2c6e49;
+            --primary-dark: #1e4d33;
+            --light-bg: #f8f9fa;
+            --text-color: #333;
+            --border-color: #ddd;
+            --focus-outline: 3px solid #4c956c;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        main {
+            margin: 2rem 0;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Accordion styles */
+        .accordion {
+            margin: 2rem 0;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+        .accordion-header {
+            margin: 0;
+        }
+
+        .accordion-button {
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            cursor: pointer;
+            padding: 1rem;
+            width: 100%;
+            text-align: left;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            position: relative;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+        .accordion-button:hover {
+            background-color: #e9ecef;
+        }
+
+        .accordion-button:focus {
+            outline: var(--focus-outline);
+            outline-offset: -1px;
+            z-index: 1;
+        }
+
+        .accordion-button::after {
+            content: '+';
+            position: absolute;
+            right: 1rem;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-button[aria-expanded="true"]::after {
+            content: '−';
+        }
+
+        .accordion-panel {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .accordion-panel[aria-hidden="false"] {
+            padding: 1rem;
+            max-height: 500px; /* Adjust based on your content needs */
+        }
+
+        /* Additional styles for content */
+        .accordion-content {
+            margin: 0;
+        }
+
+        .accordion-content ul {
+            padding-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .accordion-content p {
+            margin-top: 0;
+        }
+
+        /* Skip link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px;
+            z-index: 100;
+            transition: top 0.3s;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <header>
+        <h1>Sustainable Gardening Practices</h1>
+    </header>
+
+    <main id="main-content">
+        <p>Discover how to create and maintain an eco-friendly garden with these sustainable gardening practices. Expand each section to learn more.</p>
+        
+        <div class="accordion" id="gardening-accordion">
+            <!-- Accordion Item 1 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading-1">
+                    <button class="accordion-button" 
+                            aria-expanded="false"
+                            aria-controls="panel-1"
+                            id="accordion-button-1">
+                        Water Conservation Techniques
+                    </button>
+                </h2>
+                <div id="panel-1" 
+                     role="region" 
+                     aria-labelledby="accordion-button-1" 
+                     class="accordion-panel" 
+                     aria-hidden="true">
+                    <div class="accordion-content">
+                        <p>Efficient water use is critical for sustainable gardening. Implement these methods to reduce water consumption while keeping your garden healthy:</p>
+                        <ul>
+                            <li><strong>Rainwater harvesting:</strong> Collect rainwater in barrels or tanks for later use in your garden.</li>
+                            <li><strong>Drip irrigation:</strong> Install a drip system that delivers water directly to plant roots, minimizing evaporation.</li>
+                            <li><strong>Mulching:</strong> Apply a 2-3 inch layer of organic mulch around plants to retain soil moisture and reduce watering needs.</li>
+                            <li><strong>Water timing:</strong> Water early in the morning or evening to minimize evaporation and water loss.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Accordion Item 2 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading-2">
+                    <button class="accordion-button" 
+                            aria-expanded="false"
+                            aria-controls="panel-2"
+                            id="accordion-button-2">
+                        Composting Basics
+                    </button>
+                </h2>
+                <div id="panel-2" 
+                     role="region" 
+                     aria-labelledby="accordion-button-2" 
+                     class="accordion-panel" 
+                     aria-hidden="true">
+                    <div class="accordion-content">
+                        <p>Composting transforms kitchen scraps and yard waste into nutrient-rich soil amendment. Here's how to get started:</p>
+                        <ul>
+                            <li><strong>Greens and browns:</strong> Maintain a balance of green materials (vegetable scraps, coffee grounds) and brown materials (dry leaves, cardboard).</li>
+                            <li><strong>Location:</strong> Place your compost bin in a partially shaded area with good drainage.</li>
+                            <li><strong>Turning:</strong> Turn your compost pile regularly to provide oxygen and speed decomposition.</li>
+                            <li><strong>Moisture:</strong> Keep the compost pile as moist as a wrung-out sponge for optimal microbial activity.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Accordion Item 3 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading-3">
+                    <button class="accordion-button" 
+                            aria-expanded="false"
+                            aria-controls="panel-3"
+                            id="accordion-button-3">
+                        Native Plant Selection
+                    </button>
+                </h2>
+                <div id="panel-3" 
+                     role="region" 
+                     aria-labelledby="accordion-button-3" 
+                     class="accordion-panel" 
+                     aria-hidden="true">
+                    <div class="accordion-content">
+                        <p>Native plants are adapted to local conditions and provide numerous benefits:</p>
+                        <ul>
+                            <li><strong>Reduced water needs:</strong> Native plants are adapted to local rainfall patterns and typically require less supplemental watering.</li>
+                            <li><strong>Wildlife support:</strong> Native plants provide habitat and food for local birds, butterflies, and beneficial insects.</li>
+                            <li><strong>Low maintenance:</strong> Once established, native plants typically need less care and fewer resources.</li>
+                            <li><strong>Disease resistance:</strong> Native plants have evolved alongside local pests and diseases, often developing natural resistance.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Accordion Item 4 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading-4">
+                    <button class="accordion-button" 
+                            aria-expanded="false"
+                            aria-controls="panel-4"
+                            id="accordion-button-4">
+                        Natural Pest Management
+                    </button>
+                </h2>
+                <div id="panel-4" 
+                     role="region" 
+                     aria-labelledby="accordion-button-4" 
+                     class="accordion-panel" 
+                     aria-hidden="true">
+                    <div class="accordion-content">
+                        <p>Manage garden pests without harmful chemicals through these eco-friendly approaches:</p>
+                        <ul>
+                            <li><strong>Companion planting:</strong> Plant species that naturally repel pests or attract beneficial insects.</li>
+                            <li><strong>Physical barriers:</strong> Use row covers, netting, or copper tape to keep pests away from plants.</li>
+                            <li><strong>Beneficial insects:</strong> Attract or introduce predatory insects like ladybugs and lacewings that feed on garden pests.</li>
+                            <li><strong>Homemade sprays:</strong> Create natural repellents using ingredients like garlic, hot pepper, or neem oil diluted in water.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>For more gardening tips and sustainable practices, visit your local extension office or community garden center.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all accordion buttons
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            
+            // Add click event listener to each button
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Toggle aria-expanded state
+                    const expanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !expanded);
+                    
+                    // Get the panel this button controls
+                    const panelId = this.getAttribute('aria-controls');
+                    const panel = document.getElementById(panelId);
+                    
+                    // Toggle panel visibility
+                    panel.setAttribute('aria-hidden', expanded);
+                });
+            });
+            
+            // Handle keyboard navigation within accordion
+            const accordion = document.getElementById('gardening-accordion');
+            accordion.addEventListener('keydown', function(event) {
+                const target = event.target;
+                
+                // Only handle keyboard events on accordion buttons
+                if (!target.classList.contains('accordion-button')) return;
+                
+                const buttons = Array.from(accordionButtons);
+                const currentIndex = buttons.indexOf(target);
+                
+                switch (event.key) {
+                    case 'ArrowDown':
+                        event.preventDefault();
+                        // Move focus to next button if available
+                        if (currentIndex < buttons.length - 1) {
+                            buttons[currentIndex + 1].focus();
+                        }
+                        break;
+                    case 'ArrowUp':
+                        event.preventDefault();
+                        // Move focus to previous button if available
+                        if (currentIndex > 0) {
+                            buttons[currentIndex - 1].focus();
+                        }
+                        break;
+                    case 'Home':
+                        event.preventDefault();
+                        // Move focus to first button
+                        buttons[0].focus();
+                        break;
+                    case 'End':
+                        event.preventDefault();
+                        // Move focus to last button
+                        buttons[buttons.length - 1].focus();
+                        break;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

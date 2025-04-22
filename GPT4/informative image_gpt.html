@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Accessible Informative Image Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      background-color: #f9f9f9;
+      color: #222;
+      padding: 2rem;
+    }
+
+    header, main, footer {
+      max-width: 800px;
+      margin: auto;
+    }
+
+    figure {
+      margin: 2rem 0;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 4px;
+    }
+
+    figcaption {
+      margin-top: 1rem;
+    }
+
+    button.toggle-caption {
+      margin-top: 0.5rem;
+      background-color: #0074d9;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    button.toggle-caption:focus {
+      outline: 3px solid #ffbf47;
+      outline-offset: 2px;
+    }
+
+    .caption-text {
+      display: none;
+      margin-top: 0.5rem;
+      background-color: #eef;
+      padding: 0.5rem;
+      border-left: 4px solid #0074d9;
+      border-radius: 4px;
+    }
+
+    .caption-text[aria-hidden="false"] {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <header role="banner">
+    <h1>Climate Change Impact in the Arctic</h1>
+  </header>
+
+  <main role="main">
+    <p>
+      The Arctic region is experiencing dramatic transformations due to climate change.
+      Below is an image that highlights these environmental changes over time.
+    </p>
+
+    <figure role="group" aria-labelledby="figure-caption-heading">
+      <img 
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Arctic_Ocean_sea_ice_extent_1979-2020.png/800px-Arctic_Ocean_sea_ice_extent_1979-2020.png" 
+        alt="Graph showing decline of Arctic Ocean sea ice extent from 1979 to 2020"
+      />
+      <figcaption id="figure-caption-heading">
+        <strong>Sea Ice Decline Over Time</strong>
+        <div>
+          <button 
+            class="toggle-caption" 
+            aria-expanded="false" 
+            aria-controls="caption-details"
+            onclick="toggleCaption()"
+          >
+            Show more information
+          </button>
+        </div>
+        <div 
+          id="caption-details" 
+          class="caption-text" 
+          aria-hidden="true"
+        >
+          This graph from the National Snow and Ice Data Center illustrates the decreasing extent
+          of Arctic sea ice during the month of September, highlighting a 40% decline over four decades.
+        </div>
+      </figcaption>
+    </figure>
+  </main>
+
+  <footer role="contentinfo">
+    <p>&copy; 2025 Climate Research Initiative. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function toggleCaption() {
+      const captionText = document.getElementById('caption-details');
+      const button = document.querySelector('.toggle-caption');
+      const isExpanded = button.getAttribute('aria-expanded') === 'true';
+
+      button.setAttribute('aria-expanded', String(!isExpanded));
+      captionText.setAttribute('aria-hidden', String(isExpanded));
+      button.textContent = isExpanded ? 'Show more information' : 'Hide information';
+    }
+  </script>
+</body>
+</html>

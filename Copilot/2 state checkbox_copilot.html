@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessible Two-State Checkbox</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .checkbox-label {
+            margin-left: 10px;
+        }
+        .checkbox {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Accessible Two-State Checkbox Example</h1>
+    <form>
+        <div class="checkbox-container">
+            <input type="checkbox" id="subscribe" class="checkbox" aria-checked="false" aria-labelledby="subscribe-label" role="checkbox">
+            <label for="subscribe" id="subscribe-label" class="checkbox-label">Subscribe to our newsletter</label>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkbox = document.getElementById('subscribe');
+            checkbox.addEventListener('change', function() {
+                checkbox.setAttribute('aria-checked', checkbox.checked);
+            });
+        });
+    </script>
+</body>
+</html>

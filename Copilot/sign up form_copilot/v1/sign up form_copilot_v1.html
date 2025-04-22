@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="scripts.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Our Service</h1>
+    </header>
+    <main>
+        <section aria-labelledby="signup-heading">
+            <h2 id="signup-heading">Sign Up</h2>
+            <form id="signup-form" action="/submit" method="post" aria-describedby="form-description">
+                <p id="form-description">Please fill out the form below to create an account.</p>
+                <div>
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required aria-required="true">
+                </div>
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required aria-required="true">
+                </div>
+                <div>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required aria-required="true">
+                </div>
+                <div>
+                    <label for="confirm-password">Confirm Password:</label>
+                    <input type="password" id="confirm-password" name="confirm-password" required aria-required="true">
+                </div>
+                <div>
+                    <button type="submit">Sign Up</button>
+                </div>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Our Service. All rights reserved.</p>
+    </footer>
+</body>
+</html>

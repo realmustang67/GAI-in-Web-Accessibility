@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contact us modal dialog example adhering to WCAG and ARIA standards.">
+  <title>Accessible Contact Modal Dialog</title>
+  <style>
+    /* Basic reset for accessibility and consistency */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
+      color: #333;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+
+    /* Main content styling */
+    main {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: #1a3c6d;
+    }
+
+    /* Button to open modal */
+    .open-modal-btn {
+      background-color: #1a3c6d;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .open-modal-btn:hover {
+      background-color: #2a5b9e;
+    }
+
+    .open-modal-btn:focus {
+      outline: 3px solid #ffbf47;
+      outline-offset: 2px;
+    }
+
+    /* Modal overlay */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Modal content */
+    .modal {
+      background-color: #fff;
+      max-width: 500px;
+      width: 90%;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    .modal h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #1a3c6d;
+    }
+
+    .modal p {
+      margin-bottom: 1rem;
+    }
+
+    /* Form styling */
+    .modal form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .modal label {
+      font-weight: bold;
+    }
+
+    .modal input,
+    .modal textarea {
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+      width: 100%;
+    }
+
+    .modal input:focus,
+    .modal textarea:focus {
+      outline: 3px solid #ffbf47;
+      border-color: #1a3c6d;
+    }
+
+    /* Close button */
+    .modal .close-btn,
+    .modal .submit-btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .modal .close-btn {
+      background-color: #ccc;
+      color: #333;
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+    }
+
+    .modal .close-btn:hover {
+      background-color: #aaa;
+    }
+
+    .modal .submit-btn {
+      background-color: #1a3c6d;
+      color: #fff;
+    }
+
+    .modal .submit-btn:hover {
+      background-color: #2a5b9e;
+    }
+
+    .modal .close-btn:focus,
+    .modal .submit-btn:focus {
+      outline: 3px solid #ffbf47;
+      outline-offset: 2px;
+    }
+
+    /* Visible state for modal */
+    .modal-overlay[aria-hidden="false"] {
+      display: flex;
+    }
+
+    /* High contrast support */
+    @media (prefers-contrast: high) {
+      body {
+        background-color: #fff;
+        color: #000;
+      }
+
+      .open-modal-btn,
+      .modal .submit-btn {
+        background-color: #000;
+        color: #fff;
+      }
+
+      .modal {
+        border: 2px solid #000;
+      }
+    }
+
+    /* Reduced motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      .open-modal-btn,
+      .modal .close-btn,
+      .modal .submit-btn {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <!-- Semantic heading for the page -->
+    <h1>Contact Our Team</h1>
+    <p>
+      Have questions or need assistance? Reach out to us using the contact form below.
+    </p>
+    <!-- Button to trigger modal; associated with modal via aria-controls -->
+    <button class="open-modal-btn" aria-controls="contact-modal" aria-expanded="false">
+      Open Contact Form
+    </button>
+  </main>
+
+  <!-- Modal dialog structure -->
+  <div class="modal-overlay" id="contact-modal" aria-hidden="true" role="dialog">
+    <section class="modal" aria-labelledby="modal-title" aria-describedby="modal-desc">
+      <!-- Close button for accessibility -->
+      <button class="close-btn" aria-label="Close contact form">Close</button>
+      <!-- Modal heading -->
+      <h2 id="modal-title">Contact Us</h2>
+      <!-- Modal description for screen readers -->
+      <p id="modal-desc">
+        Please fill out the form below, and our team will get back to you within 24 hours.
+      </p>
+      <!-- Contact form -->
+      <form id="contact-form">
+        <div>
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" required aria-required="true" placeholder="Enter your full name">
+        </div>
+        <div>
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="4" required aria-required="true" placeholder="Your message"></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Send Message</button>
+      </form>
+    </section>
+  </div>
+
+  <script>
+    // JavaScript for modal interactivity and focus management
+    (function () {
+      const openButton = document.querySelector('.open-modal-btn');
+      const modalOverlay = document.querySelector('.modal-overlay');
+      const modal = modalOverlay.querySelector('.modal');
+      const closeButton = modal.querySelector('.close-btn');
+      const form = modal.querySelector('#contact-form');
+      const focusableElements = modal.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      const firstFocusable = focusableElements[0]; // Close button
+      const lastFocusable = focusableElements[focusableElements.length - 1];
+
+      // Open modal
+      openButton.addEventListener('click', () => {
+        modalOverlay.setAttribute('aria-hidden', 'false');
+        openButton.setAttribute('aria-expanded', 'true');
+        firstFocusable.focus(); // Focus the close button instead of the modal container
+      });
+
+      // Close modal
+      function closeModal() {
+        modalOverlay.setAttribute('aria-hidden', 'true');
+        openButton.setAttribute('aria-expanded', 'false');
+        openButton.focus(); // Return focus to trigger button
+      }
+
+      closeButton.addEventListener('click', closeModal);
+
+      // Close on Esc key
+      modalOverlay.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeModal();
+        }
+      });
+
+      // Trap focus within modal
+      modal.addEventListener('keydown', (e) => {
+        if (e.key === 'Tab') {
+          if (e.shiftKey) {
+            // Shift + Tab
+            if (document.activeElement === firstFocusable) {
+              e.preventDefault();
+              lastFocusable.focus();
+            }
+          } else {
+            // Tab
+            if (document.activeElement === lastFocusable) {
+              e.preventDefault();
+              firstFocusable.focus();
+            }
+          }
+        }
+      });
+
+      // Form submission (for demo purposes, logs to console)
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        console.log('Form submitted:', {
+          name: form.querySelector('#name').value,
+          message: form.querySelector('#message').value
+        });
+        closeModal();
+        form.reset();
+      });
+    })();
+  </script>
+</body>
+</html>

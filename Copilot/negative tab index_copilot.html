@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessible Web Component</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .hidden-element {
+            display: none;
+        }
+        .accessible-button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .accessible-button:focus {
+            outline: 2px solid #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Accessible Web Component Example</h1>
+        <p>This example demonstrates the use of a negative tab index for an element that should not be focusable.</p>
+        
+        <!-- Button with negative tab index -->
+        <button class="accessible-button" tabindex="-1" aria-hidden="true">Non-focusable Button</button>
+        
+        <!-- Interactive button -->
+        <button class="accessible-button" id="toggleButton" aria-controls="hiddenContent" aria-expanded="false">Toggle Content</button>
+        
+        <!-- Hidden content -->
+        <div id="hiddenContent" class="hidden-element" role="region" aria-labelledby="toggleButton">
+            <p>This content is toggled by the button above. It is initially hidden and becomes visible when the button is clicked.</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('toggleButton').addEventListener('click', function() {
+            var hiddenContent = document.getElementById('hiddenContent');
+            var isExpanded = this.getAttribute('aria-expanded') === 'true';
+            hiddenContent.style.display = isExpanded ? 'none' : 'block';
+            this.setAttribute('aria-expanded', !isExpanded);
+        });
+    </script>
+</body>
+</html>

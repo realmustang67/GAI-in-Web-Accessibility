@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urban Gardening Resource Center - Accessible with Skip Navigation</title>
+    <style>
+        /* Base styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Skip link styling */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 15px;
+            z-index: 100;
+            text-decoration: none;
+            transition: top 0.3s;
+        }
+
+        .skip-link:focus {
+            top: 0;
+            outline: 3px solid #3498db;
+        }
+
+        /* Header styling */
+        header {
+            background-color: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e3e3e3;
+        }
+
+        nav {
+            margin-top: 15px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            padding: 5px;
+        }
+
+        nav a:hover, nav a:focus {
+            text-decoration: underline;
+            outline: 3px solid #3498db;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        main {
+            padding: 20px 0;
+        }
+
+        article {
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+
+        .button:hover, .button:focus {
+            background-color: #1a252f;
+            outline: 3px solid #3498db;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e3e3e3;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip to main content link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header>
+        <h1>Urban Gardening Resource Center</h1>
+        <nav aria-label="Main Navigation">
+            <ul>
+                <li><a href="#" aria-current="page">Home</a></li>
+                <li><a href="#">Getting Started</a></li>
+                <li><a href="#">Plant Guides</a></li>
+                <li><a href="#">Garden Planning</a></li>
+                <li><a href="#">Community</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main content with the ID that the skip link targets -->
+    <main id="main-content" tabindex="-1">
+        <article>
+            <h2>Welcome to Urban Gardening</h2>
+            <p>Our mission is to help city dwellers transform their balconies, patios, and small spaces into thriving gardens. Whether you have a sunny windowsill or a rooftop terrace, we have the resources to help you grow fresh vegetables, beautiful flowers, and create your own urban oasis.</p>
+            
+            <p>Urban gardening is not just about growing plants—it's about creating sustainable lifestyles, improving mental health, and building community connections through shared green spaces.</p>
+            
+            <a href="#" class="button">Explore Our Resources</a>
+        </article>
+
+        <article>
+            <h2>Featured: Container Gardening for Beginners</h2>
+            <p>New to gardening in limited spaces? Container gardening is the perfect solution for urban environments. With the right containers, soil, and plant selection, you can grow almost anything in pots—from herbs and vegetables to flowers and small trees.</p>
+            
+            <p>Our comprehensive guide covers everything you need to know to get started, including choosing the right containers, understanding drainage needs, and selecting plants that thrive in container environments.</p>
+            
+            <a href="#" class="button">Read the Guide</a>
+        </article>
+    </main>
+
+    <footer>
+        <p>© 2025 Urban Gardening Resource Center. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // JavaScript to enhance the skip link functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // When the skip link is used and main content is focused
+            const mainContent = document.getElementById('main-content');
+            
+            // Add event listeners for both the skip link and main content
+            const skipLink = document.querySelector('.skip-link');
+            
+            // When skip link is clicked, set focus on main content
+            skipLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                mainContent.focus();
+                // Scroll to the main content
+                mainContent.scrollIntoView();
+            });
+            
+            // When a user tabs away from main content after using skip link
+            // (removing the visible focus outline for aesthetic purposes)
+            mainContent.addEventListener('blur', function() {
+                mainContent.removeAttribute('tabindex');
+            });
+            
+            // When focused, add the tabindex back to ensure it's focusable
+            mainContent.addEventListener('focus', function() {
+                if (!this.hasAttribute('tabindex')) {
+                    this.setAttribute('tabindex', '-1');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

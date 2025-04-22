@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Employee performance dashboard with accessible data table">
+    <title>Employee Performance Dashboard</title>
+    <!-- Accessibility: Descriptive meta tags for screen readers -->
+    <style>
+        /* Reset default styles for consistency */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #1a3c6d;
+        }
+
+        /* Table container for responsive design */
+        .table-container {
+            max-width: 100%;
+            overflow-x: auto;
+            margin: 0 auto;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+
+        /* Accessibility: Ensure sufficient contrast and readable font sizes */
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }
+
+        th {
+            background-color: #1a3c6d;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        /* Accessibility: Visual indication for sortable headers */
+        th button {
+            background: none;
+            border: none;
+            color: #fff;
+            font: inherit;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            padding: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        th button:hover,
+        th button:focus {
+            outline: 2px solid #ffd700;
+            outline-offset: -2px;
+        }
+
+        /* Accessibility: Indicate sort direction visually */
+        .sort-asc::after {
+            content: ' ↑';
+        }
+
+        .sort-desc::after {
+            content: ' ↓';
+        }
+
+        tr:nth-child(even) {
+            background-color: #f4f4f4;
+        }
+
+        tr:hover {
+            background-color: #e0e7ff;
+        }
+
+        /* Accessibility: Focus styles for keyboard navigation */
+        table:focus-within {
+            outline: 2px solid #1a3c6d;
+            outline-offset: 2px;
+        }
+
+        caption {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-align: left;
+            color: #333;
+        }
+
+        /* Accessibility: High contrast for readability */
+        @media (prefers-contrast: high) {
+            th {
+                background-color: #000;
+                color: #fff;
+            }
+            td {
+                background-color: #fff;
+                color: #000;
+            }
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 600px) {
+            th, td {
+                font-size: 0.9rem;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Accessibility: Clear heading structure -->
+        <h1>Employee Performance Dashboard</h1>
+    </header>
+    <main>
+        <div class="table-container">
+            <!-- Accessibility: Caption provides context for screen readers -->
+            <table role="grid" aria-describedby="table-desc">
+                <caption>Employee Performance Metrics for Q1 2025</caption>
+                <thead>
+                    <tr>
+                        <!-- Accessibility: Scope attribute defines header relationships -->
+                        <th scope="col" rowspan="2">
+                            <button id="sort-name" aria-sort="none" aria-label="Sort by Employee Name">
+                                Employee Name
+                            </button>
+                        </th>
+                        <th scope="col" colspan="3">Performance Metrics</th>
+                    </tr>
+                    <tr>
+                        <th scope="col">
+                            <button id="sort-sales" aria-sort="none" aria-label="Sort by Sales Revenue">
+                                Sales Revenue ($)
+                            </button>
+                        </th>
+                        <th scope="col">
+                            <button id="sort-satisfaction" aria-sort="none" aria-label="Sort by Customer Satisfaction">
+                                Customer Satisfaction (%)
+                            </button>
+                        </th>
+                        <th scope="col">
+                            <button id="sort-projects" aria-sort="none" aria-label="Sort by Projects Completed">
+                                Projects Completed
+                            </button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Accessibility: Semantic structure with realistic data -->
+                    <tr>
+                        <th scope="row">Alice Johnson</th>
+                        <td>120,000</td>
+                        <td>92</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Bob Martinez</th>
+                        <td>95,000</td>
+                        <td>88</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Clara Lee</th>
+                        <td>150,000</td>
+                        <td>95</td>
+                        <td>7</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">David Kim</th>
+                        <td>80,000</td>
+                        <td>85</td>
+                        <td>2</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- Accessibility: Description for screen readers -->
+            <p id="table-desc" class="sr-only">
+                This table displays employee performance metrics for Q1 2025, including sales revenue, customer satisfaction percentage, and number of projects completed.
+            </p>
+        </div>
+    </main>
+
+    <script>
+        // Accessibility: JavaScript for interactive sorting with keyboard support
+        const table = document.querySelector('table');
+        const headers = table.querySelectorAll('th button');
+        let data = [
+            { name: 'Alice Johnson', sales: 120000, satisfaction: 92, projects: 5 },
+            { name: 'Bob Martinez', sales: 95000, satisfaction: 88, projects: 3 },
+            { name: 'Clara Lee', sales: 150000, satisfaction: 95, projects: 7 },
+            { name: 'David Kim', sales: 80000, satisfaction: 85, projects: 2 }
+        ];
+
+        headers.forEach(button => {
+            button.addEventListener('click', () => sortTable(button));
+            // Accessibility: Allow keyboard interaction
+            button.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    sortTable(button);
+                }
+            });
+        });
+
+        function sortTable(button) {
+            const keyMap = {
+                'sort-name': 'name',
+                'sort-sales': 'sales',
+                'sort-satisfaction': 'satisfaction',
+                'sort-projects': 'projects'
+            };
+            const key = keyMap[button.id];
+            let order = button.getAttribute('aria-sort') === 'ascending' ? 'descending' : 'ascending';
+
+            // Accessibility: Update ARIA sort state
+            headers.forEach(btn => {
+                btn.setAttribute('aria-sort', 'none');
+                btn.classList.remove('sort-asc', 'sort-desc');
+            });
+            button.setAttribute('aria-sort', order);
+            button.classList.add(order === 'ascending' ? 'sort-asc' : 'sort-desc');
+
+            // Sort data
+            data.sort((a, b) => {
+                let valA = a[key];
+                let valB = b[key];
+                if (key === 'name') {
+                    valA = valA.toLowerCase();
+                    valB = valB.toLowerCase();
+                }
+                if (valA < valB) return order === 'ascending' ? -1 : 1;
+                if (valA > valB) return order === 'ascending' ? 1 : -1;
+                return 0;
+            });
+
+            // Update table body
+            const tbody = table.querySelector('tbody');
+            tbody.innerHTML = '';
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <th scope="row">${row.name}</th>
+                    <td>${row.sales.toLocaleString()}</td>
+                    <td>${row.satisfaction}</td>
+                    <td>${row.projects}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Accessibility: Announce sort to screen readers
+            announceSort(button, order);
+        }
+
+        // Accessibility: Live region for screen reader announcements
+        const liveRegion = document.createElement('div');
+        liveRegion.setAttribute('aria-live', 'polite');
+        liveRegion.className = 'sr-only';
+        document.body.appendChild(liveRegion);
+
+        function announceSort(button, order) {
+            const column = button.textContent.trim();
+            liveRegion.textContent = `Sorted by ${column} in ${order} order`;
+        }
+
+        // Accessibility: Screen reader only class
+        const style = document.createElement('style');
+        style.textContent = `
+            .sr-only {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                padding: 0;
+                margin: -1px;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                border: 0;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

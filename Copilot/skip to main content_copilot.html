@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessible Web Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #000;
+            color: #fff;
+            padding: 8px;
+            z-index: 100;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
+        header, main, footer {
+            padding: 20px;
+        }
+        header {
+            background: #f4f4f4;
+        }
+        main {
+            background: #fff;
+        }
+        footer {
+            background: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <header>
+        <h1>Welcome to Our Accessible Website</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main-content">
+        <h2>Main Content Area</h2>
+        <p>This is where the main content of the page goes. It is designed to be accessible and easy to navigate.</p>
+        <img src="example.jpg" alt="Description of the image">
+    </main>
+    <footer>
+        <p>&copy; 2025 Accessible Web. All rights reserved.</p>
+    </footer>
+    <script>
+        // JavaScript for interactive elements if needed
+    </script>
+</body>
+</html>

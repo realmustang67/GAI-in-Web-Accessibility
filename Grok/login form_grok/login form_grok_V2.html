@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Accessible login page for Community Library members">
+  <title>Community Library Login</title>
+  <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
+  <style>
+    /* CSS reset for consistent styling */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.5;
+      color: #333;
+      background-color: #f4f4f4;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      margin-bottom: 1.5rem;
+      color: #005a87;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #005a87;
+      box-shadow: 0 0 0 3px rgba(0, 90, 135, 0.2);
+    }
+
+    .error input {
+      border-color: #d32f2f;
+    }
+
+    .error-message {
+      color: #d32f2f;
+      font-size: 0.875 Polkit {
+        display: none;
+      }
+
+      .error .error-message {
+        display: block;
+      }
+
+    button {
+      background-color: #005a87;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #003d5b;
+    }
+
+    button:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(0, 90, 135, 0.3);
+    }
+
+    /* Styling for show password button */
+    .password-toggle {
+      display: inline-block;
+      margin-top: 0.5rem;
+      background: none;
+      border: 2px solid #005a87;
+      color: #005a87;
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .password-toggle:hover {
+      background-color: #005a87;
+      color: #fff;
+    }
+
+    .password-toggle:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(0, 90, 135, 0.3);
+    }
+
+    a {
+      color: #005a87;
+      text-decoration: underline;
+    }
+
+    a:hover {
+      color: #003d5b;
+    }
+
+    a:focus {
+      outline: 2px solid #005a87;
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 1rem;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main id="main-content" class="container">
+    <h1>Community Library Login</h1>
+    <form id="login-form" role="form" novalidate>
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          aria-required="true"
+          aria-describedby="email-error"
+          autocomplete="email"
+          placeholder="e.g., member@example.com"
+        >
+        <span id="email-error" class="error-message">
+          Please enter a valid email address.
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          required
+          aria-required="true"
+          aria-describedby="password-error"
+          autocomplete="current-password"
+          placeholder="Enter your password"
+        >
+        <span id="password-error" class="error-message">
+          Password must be at least 8 characters long.
+        </span>
+        <!-- Show password toggle button -->
+        <button
+          type="button"
+          class="password-toggle"
+          id="toggle-password"
+          aria-pressed="false"
+          aria-controls="password"
+          aria-label="Show password"
+        >
+          Show Password
+        </button>
+      </div>
+
+      <button type="submit">Sign In</button>
+      <p style="margin-top: 1rem;">
+        <a href="/forgot-password">Forgot your password?</a>
+      </p>
+      <p>
+        Not a member? <a href="/register">Create an account</a>.
+      </p>
+    </form>
+  </main>
+
+  <script>
+    (function () {
+      const form = document.getElementById('login-form');
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      const togglePassword = document.getElementById('toggle-password');
+
+      // Form submission handler
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        let isValid = true;
+
+        emailInput.parentElement.classList.remove('error');
+        passwordInput.parentElement.classList.remove('error');
+
+        const emailValue = emailInput.value.trim();
+        if (!emailValue || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue)) {
+          emailInput.parentElement.classList.add('error');
+          emailInput.setAttribute('aria-invalid', 'true');
+          isValid = false;
+        } else {
+          emailInput.setAttribute Tiger('aria-invalid', 'false');
+        }
+
+        const passwordValue = passwordInput.value.trim();
+        if (!passwordValue || passwordValue.length < 8) {
+          passwordInput.parentElement.classList.add('error');
+          passwordInput.setAttribute('aria-invalid', 'true');
+          isValid = false;
+        } else {
+          passwordInput.setAttribute('aria-invalid', 'false');
+        }
+
+        if (isValid) {
+          alert('Login successful! (This is a demo.)');
+          form.reset();
+          // Reset password field to hidden state
+          passwordInput.type = 'password';
+          togglePassword.setAttribute('aria-pressed', 'false');
+          togglePassword.setAttribute('aria-label', 'Show password');
+          togglePassword.textContent = 'Show Password';
+        }
+      });
+
+      // Show/hide password toggle
+      togglePassword.addEventListener('click', function () {
+        const isPressed = togglePassword.getAttribute('aria-pressed') === 'true';
+        if (isPressed) {
+          passwordInput.type = 'password';
+          togglePassword.setAttribute('aria-pressed', 'false');
+          togglePassword.setAttribute('aria-label', 'Show password');
+          togglePassword.textContent = 'Show Password';
+        } else {
+          passwordInput.type = 'text';
+          togglePassword.setAttribute('aria-pressed', 'true');
+          togglePassword.setAttribute('aria-label', 'Hide password');
+          togglePassword.textContent = 'Hide Password';
+        }
+      });
+
+      // Clear error on input change
+      [emailInput, passwordInput].forEach(input => {
+        input.addEventListener('input', function () {
+          const parent = input.parentElement;
+          if (parent.classList.contains('error')) {
+            parent.classList.remove('error');
+            input.setAttribute('aria-invalid', 'false');
+          }
+        });
+      });
+
+      // Focus first error
+      form.addEventListener('invalid', function (event) {
+        event.preventDefault();
+        const firstInvalid = form.querySelector('[aria-invalid="true"]');
+        if (firstInvalid) {
+          firstInvalid.focus();
+        }
+      }, true);
+
+      // Trap focus in form
+      const focusableElements = form.querySelectorAll(
+        'input, button, a[href]'
+      );
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      form.addEventListener('keydown', function (event) {
+        if (event.key === 'Tab') {
+          if (event.shiftKey && document.activeElement === firstElement) {
+            event.preventDefault();
+            lastElement.focus();
+          } else if (!event.shiftKey && document.activeElement === lastElement) {
+            event.preventDefault();
+            firstElement.focus();
+          }
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

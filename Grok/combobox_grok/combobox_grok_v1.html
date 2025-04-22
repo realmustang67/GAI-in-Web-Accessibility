@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Accessible form with a select-only combo box to choose a favorite programming language.">
+  <title>Accessible Select-Only Combo Box</title>
+
+  <!-- CSS for styling and accessibility -->
+  <style>
+    /* Ensure sufficient contrast and readability */
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    main {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #1a1a1a;
+    }
+
+    /* Form styling */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: #1a1a1a;
+    }
+
+    /* Combo box container */
+    .combobox-wrapper {
+      position: relative;
+    }
+
+    #language-input {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 2px solid #333;
+      border-radius: 4px;
+      background-color: #fff;
+      box-sizing: border-box;
+    }
+
+    /* Focus state for accessibility */
+    #language-input:focus {
+      outline: none;
+      border-color: #005ea2;
+      box-shadow: 0 0 0 3px rgba(0, 94, 162, 0.3);
+    }
+
+    /* Listbox styling */
+    #language-listbox {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      border: 2px solid #333;
+      border-radius: 4px;
+      background-color: #fff;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 10;
+      display: none;
+    }
+
+    #language-listbox[aria-expanded="true"] {
+      display: block;
+    }
+
+    /* Option styling */
+    .option {
+      padding: 0.75rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .option:hover,
+    .option:focus,
+    .option[aria-selected="true"] {
+      background-color: #005ea2;
+      color: #fff;
+    }
+
+    /* Error message styling */
+    .error-message {
+      color: #d32f2f;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+
+    .error-message.active {
+      display: block;
+    }
+
+    /* Ensure focusable elements are visible */
+    :focus {
+      outline: 3px solid #005ea2;
+      outline-offset: 2px;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Choose Your Favorite Programming Language</h1>
+
+    <!-- Form with semantic structure -->
+    <form id="language-form" aria-describedby="form-description">
+      <p id="form-description">Please select your favorite programming language using the combo box below.</p>
+
+      <div class="form-group">
+        <!-- Label explicitly associated with input -->
+        <label for="language-input">Favorite Programming Language</label>
+
+        <!-- Combo box wrapper for positioning -->
+        <div class="combobox-wrapper">
+          <!-- Input for typing and filtering -->
+          <input
+            type="text"
+            id="language-input"
+            role="combobox"
+            aria-autocomplete="list"
+            aria-expanded="false"
+            aria-controls="language-listbox"
+            aria-describedby="language-error"
+            autocomplete="off"
+            placeholder="Type to search..."
+          >
+
+          <!-- Listbox for options -->
+          <ul
+            id="language-listbox"
+            role="listbox"
+            aria-label="Programming languages"
+          >
+            <!-- Options populated by JavaScript -->
+          </ul>
+        </div>
+
+        <!-- Error message for invalid input -->
+        <p id="language-error" class="error-message">
+          Please select a valid programming language from the list.
+        </p>
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+  </main>
+
+  <!-- JavaScript for interactivity and accessibility -->
+  <script>
+    // Realistic list of programming languages
+    const languages = [
+      'Python',
+      'JavaScript',
+      'Java',
+      'C++',
+      'Ruby',
+      'Go',
+      'Swift',
+      'Kotlin',
+      'PHP',
+      'TypeScript'
+    ];
+
+    // DOM elements
+    const input = document.getElementById('language-input');
+    const listbox = document.getElementById('language-listbox');
+    const form = document.getElementById('language-form');
+    const errorMessage = document.getElementById('language-error');
+
+    // Initialize combo box
+    function initializeCombobox() {
+      updateOptions(languages);
+
+      // Event listeners
+      input.addEventListener('input', handleInput);
+      input.addEventListener('keydown', handleKeydown);
+      input.addEventListener('focus', () => openListbox());
+      input.addEventListener('blur', handleBlur);
+      listbox.addEventListener('click', handleOptionClick);
+      form.addEventListener('submit', handleSubmit);
+    }
+
+    // Update options in the listbox
+    function updateOptions(options) {
+      listbox.innerHTML = '';
+      options.forEach((option, index) => {
+        const li = document.createElement('li');
+        li.setAttribute('role', 'option');
+        li.setAttribute('id', `option-${index}`);
+        li.setAttribute('tabindex', '-1');
+        li.classList.add('option');
+        li.textContent = option;
+        listbox.appendChild(li);
+      });
+    }
+
+    // Filter options based on input
+    function filterOptions(value) {
+      const filtered = languages.filter(lang =>
+        lang.toLowerCase().includes(value.toLowerCase())
+      );
+      updateOptions(filtered.length ? filtered : languages);
+      openListbox();
+    }
+
+    // Open listbox
+    function openListbox() {
+      listbox.setAttribute('aria-expanded', 'true');
+      input.setAttribute('aria-expanded', 'true');
+    }
+
+    // Close listbox
+    function closeListbox() {
+      listbox.setAttribute('aria-expanded', 'false');
+      input.setAttribute('aria-expanded', 'false');
+    }
+
+    // Handle input event
+    function handleInput() {
+      errorMessage.classList.remove('active');
+      filterOptions(input.value);
+    }
+
+    // Handle keyboard navigation
+    function handleKeydown(event) {
+      const options = listbox.querySelectorAll('[role="option"]');
+      let activeIndex = Array.from(options).findIndex(opt =>
+        opt.getAttribute('aria-selected') === 'true'
+      );
+
+      switch (event.key) {
+        case 'ArrowDown':
+          event.preventDefault();
+          if (activeIndex < options.length - 1) {
+            activeIndex++;
+          } else {
+            activeIndex = 0;
+          }
+          setActiveOption(options, activeIndex);
+          break;
+
+        case 'ArrowUp':
+          event.preventDefault();
+          if (activeIndex > 0) {
+            activeIndex--;
+          } else {
+            activeIndex = options.length - 1;
+          }
+          setActiveOption(options, activeIndex);
+          break;
+
+        case 'Enter':
+          event.preventDefault();
+          if (activeIndex >= 0) {
+            selectOption(options[activeIndex]);
+          }
+          break;
+
+        case 'Escape':
+          event.preventDefault();
+          closeListbox();
+          break;
+      }
+    }
+
+    // Set active option
+    function setActiveOption(options, index) {
+      options.forEach(opt => opt.setAttribute('aria-selected', 'false'));
+      options[index].setAttribute('aria-selected', 'true');
+      options[index].focus();
+      input.setAttribute('aria-activedescendant', options[index].id);
+    }
+
+    // Select an option
+    function selectOption(option) {
+      input.value = option.textContent;
+      closeListbox();
+      errorMessage.classList.remove('active');
+      input.focus();
+    }
+
+    // Handle option click
+    function handleOptionClick(event) {
+      const option = event.target.closest('[role="option"]');
+      if (option) {
+        selectOption(option);
+      }
+    }
+
+    // Handle blur to close listbox
+    function handleBlur(event) {
+      if (!listbox.contains(event.relatedTarget) && event.relatedTarget !== input) {
+        closeListbox();
+      }
+    }
+
+    // Handle form submission
+    function handleSubmit(event) {
+      event.preventDefault();
+      if (!languages.includes(input.value)) {
+        errorMessage.classList.add('active');
+        input.focus();
+      } else {
+        alert(`Selected language: ${input.value}`);
+        // In a real app, proceed with form submission
+      }
+    }
+
+    // Initialize on page load
+    initializeCombobox();
+  </script>
+</body>
+</html>

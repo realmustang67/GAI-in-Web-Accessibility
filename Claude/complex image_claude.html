@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quarterly Sales Performance - Accessible Data Visualization</title>
+    <style>
+        /* Base styles for readability and visual clarity */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        h1, h2 {
+            color: #2c3e50;
+        }
+        
+        /* Focus styles for keyboard users */
+        :focus {
+            outline: 3px solid #4299e1;
+            outline-offset: 2px;
+        }
+        
+        /* Chart container styles */
+        .chart-container {
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .chart-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Bar chart styles */
+        .bar-chart {
+            width: 100%;
+            height: 400px;
+            border: 1px solid #e2e8f0;
+            background-color: #f8fafc;
+        }
+        
+        .bar {
+            transition: opacity 0.2s;
+        }
+        
+        .bar:hover, .bar:focus {
+            opacity: 0.8;
+            cursor: pointer;
+        }
+        
+        /* Data table styles */
+        .data-table {
+            width: 100%;
+            margin: 2rem 0;
+            border-collapse: collapse;
+        }
+        
+        .data-table th, .data-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .data-table th {
+            background-color: #f1f5f9;
+            color: #1e293b;
+        }
+        
+        .data-table caption {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-align: left;
+        }
+        
+        /* Controls for chart interactivity */
+        .chart-controls {
+            margin: 1rem 0;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .chart-controls button {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .chart-controls button:hover {
+            background-color: #2563eb;
+        }
+        
+        .chart-controls button:focus {
+            outline: 3px solid #93c5fd;
+            outline-offset: 2px;
+        }
+        
+        /* Skip link styles */
+        .skip-link {
+            position: absolute;
+            left: -9999px;
+            z-index: 999;
+            padding: 1rem;
+            background-color: white;
+            color: #2563eb;
+            text-decoration: none;
+        }
+        
+        .skip-link:focus {
+            left: 0;
+            top: 0;
+        }
+        
+        /* Chart tooltip */
+        .tooltip {
+            position: absolute;
+            padding: 0.75rem;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            border-radius: 0.25rem;
+            pointer-events: none;
+            z-index: 100;
+            display: none;
+            max-width: 200px;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .bar-chart {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <header>
+        <h1>Quarterly Sales Performance</h1>
+    </header>
+    
+    <main id="main-content">
+        <div class="chart-container">
+            <h2 id="chart-title">Company Revenue by Quarter (2024)</h2>
+            
+            <div class="chart-controls">
+                <button id="toggle-table" aria-expanded="false" aria-controls="data-table-container">
+                    Show Data Table
+                </button>
+                <button id="download-data" aria-label="Download data as CSV">
+                    Download Data
+                </button>
+            </div>
+            
+            <div class="chart-wrapper" role="figure" aria-labelledby="chart-title">
+                <!-- SVG Chart will be inserted here by JavaScript -->
+                <svg class="bar-chart" aria-labelledby="chart-title chart-desc" role="img" tabindex="0">
+                    <title id="chart-title-svg">Company Revenue by Quarter (2024)</title>
+                    <desc id="chart-desc">
+                        A bar chart showing quarterly revenue for FY 2024. Q1 shows $120,000, Q2 shows $180,000, 
+                        Q3 shows $210,000, and Q4 shows $250,000, demonstrating steady growth throughout the year.
+                    </desc>
+                    <!-- Chart elements will be added via JavaScript -->
+                </svg>
+                <div class="tooltip" role="status" aria-live="polite"></div>
+            </div>
+            
+            <div id="data-table-container" hidden>
+                <table class="data-table" aria-labelledby="chart-title">
+                    <caption>Quarterly Revenue for Fiscal Year 2024</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Quarter</th>
+                            <th scope="col">Revenue (USD)</th>
+                            <th scope="col">Growth Rate</th>
+                            <th scope="col">Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Q1 2024</th>
+                            <td>$120,000</td>
+                            <td>--</td>
+                            <td>New product launch in February</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Q2 2024</th>
+                            <td>$180,000</td>
+                            <td>+50%</td>
+                            <td>Expanded to European market</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Q3 2024</th>
+                            <td>$210,000</td>
+                            <td>+16.7%</td>
+                            <td>Seasonal boost from summer promotions</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Q4 2024</th>
+                            <td>$250,000</td>
+                            <td>+19%</td>
+                            <td>Holiday sales exceeded forecasts</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th scope="row">Total</th>
+                            <td>$760,000</td>
+                            <td>--</td>
+                            <td>108% of annual goal</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            
+            <div class="chart-summary">
+                <h3>Key Insights</h3>
+                <ul>
+                    <li>Overall revenue increased 108% from Q1 to Q4</li>
+                    <li>Strongest growth occurred in Q2 following European market expansion</li>
+                    <li>Each quarter surpassed the previous period's revenue</li>
+                    <li>Annual revenue total exceeded the target by 8%</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Chart data
+            const chartData = [
+                { quarter: 'Q1 2024', revenue: 120000, growth: null, notes: 'New product launch in February' },
+                { quarter: 'Q2 2024', revenue: 180000, growth: 50, notes: 'Expanded to European market' },
+                { quarter: 'Q3 2024', revenue: 210000, growth: 16.7, notes: 'Seasonal boost from summer promotions' },
+                { quarter: 'Q4 2024', revenue: 250000, growth: 19, notes: 'Holiday sales exceeded forecasts' }
+            ];
+            
+            // Chart dimensions and settings
+            const svg = document.querySelector('.bar-chart');
+            const width = svg.clientWidth;
+            const height = svg.clientHeight;
+            const margin = { top: 40, right: 20, bottom: 60, left: 80 };
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+            
+            // Clear any existing content
+            svg.innerHTML = `
+                <title id="chart-title-svg">Company Revenue by Quarter (2024)</title>
+                <desc id="chart-desc">
+                    A bar chart showing quarterly revenue for FY 2024. Q1 shows $120,000, Q2 shows $180,000, 
+                    Q3 shows $210,000, and Q4 shows $250,000, demonstrating steady growth throughout the year.
+                </desc>
+            `;
+            
+            // Create chart group
+            const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            g.setAttribute('transform', `translate(${margin.left}, ${margin.top})`);
+            svg.appendChild(g);
+            
+            // Create X and Y axes
+            const maxRevenue = Math.max(...chartData.map(d => d.revenue));
+            const barWidth = chartWidth / chartData.length * 0.7;
+            const barPadding = chartWidth / chartData.length * 0.3;
+            
+            // X axis
+            const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            xAxis.setAttribute('transform', `translate(0, ${chartHeight})`);
+            xAxis.setAttribute('class', 'x-axis');
+            xAxis.setAttribute('aria-hidden', 'true');
+            g.appendChild(xAxis);
+            
+            // X axis label
+            const xAxisLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            xAxisLabel.setAttribute('x', chartWidth / 2);
+            xAxisLabel.setAttribute('y', margin.bottom - 10);
+            xAxisLabel.setAttribute('text-anchor', 'middle');
+            xAxisLabel.textContent = 'Quarter';
+            xAxisLabel.setAttribute('aria-hidden', 'true');
+            g.appendChild(xAxisLabel);
+            
+            // Y axis
+            const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            yAxis.setAttribute('class', 'y-axis');
+            yAxis.setAttribute('aria-hidden', 'true');
+            g.appendChild(yAxis);
+            
+            // Y axis label
+            const yAxisLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            yAxisLabel.setAttribute('transform', 'rotate(-90)');
+            yAxisLabel.setAttribute('x', -chartHeight / 2);
+            yAxisLabel.setAttribute('y', -margin.left + 15);
+            yAxisLabel.setAttribute('text-anchor', 'middle');
+            yAxisLabel.textContent = 'Revenue (USD)';
+            yAxisLabel.setAttribute('aria-hidden', 'true');
+            g.appendChild(yAxisLabel);
+            
+            // Create Y axis ticks and gridlines
+            const numTicks = 5;
+            const tickStep = maxRevenue / (numTicks - 1);
+            
+            for (let i = 0; i < numTicks; i++) {
+                const tickValue = i * tickStep;
+                const yPos = chartHeight - (tickValue / maxRevenue * chartHeight);
+                
+                // Gridline
+                const gridline = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                gridline.setAttribute('x1', 0);
+                gridline.setAttribute('x2', chartWidth);
+                gridline.setAttribute('y1', yPos);
+                gridline.setAttribute('y2', yPos);
+                gridline.setAttribute('stroke', '#e2e8f0');
+                gridline.setAttribute('stroke-width', '1');
+                gridline.setAttribute('aria-hidden', 'true');
+                g.appendChild(gridline);
+                
+                // Y-axis tick
+                const tick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                tick.setAttribute('x1', -5);
+                tick.setAttribute('x2', 0);
+                tick.setAttribute('y1', yPos);
+                tick.setAttribute('y2', yPos);
+                tick.setAttribute('stroke', '#333');
+                tick.setAttribute('aria-hidden', 'true');
+                yAxis.appendChild(tick);
+                
+                // Y-axis label
+                const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                label.setAttribute('x', -10);
+                label.setAttribute('y', yPos);
+                label.setAttribute('text-anchor', 'end');
+                label.setAttribute('alignment-baseline', 'middle');
+                label.textContent = `$${Math.round(tickValue).toLocaleString()}`;
+                label.setAttribute('aria-hidden', 'true');
+                yAxis.appendChild(label);
+            }
+            
+            // Create bars
+            chartData.forEach((d, i) => {
+                const barGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                const barHeight = (d.revenue / maxRevenue) * chartHeight;
+                const x = (i * (chartWidth / chartData.length)) + (barPadding / 2);
+                const y = chartHeight - barHeight;
+                
+                // Bar rectangle
+                const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                rect.setAttribute('class', 'bar');
+                rect.setAttribute('x', x);
+                rect.setAttribute('y', y);
+                rect.setAttribute('width', barWidth);
+                rect.setAttribute('height', barHeight);
+                rect.setAttribute('fill', '#3b82f6');
+                
+                // Accessibility attributes for the bar
+                rect.setAttribute('tabindex', '0');
+                rect.setAttribute('role', 'graphics-symbol');
+                rect.setAttribute('aria-label', `${d.quarter}: $${d.revenue.toLocaleString()}`);
+                
+                // X-axis label for this bar
+                const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                xLabel.setAttribute('x', x + barWidth / 2);
+                xLabel.setAttribute('y', chartHeight + 20);
+                xLabel.setAttribute('text-anchor', 'middle');
+                xLabel.textContent = d.quarter;
+                xLabel.setAttribute('aria-hidden', 'true');
+                xAxis.appendChild(xLabel);
+                
+                barGroup.appendChild(rect);
+                g.appendChild(barGroup);
+                
+                // Event listeners for interactivity
+                const tooltip = document.querySelector('.tooltip');
+                
+                // Mouse events
+                rect.addEventListener('mouseover', showTooltip);
+                rect.addEventListener('mouseout', hideTooltip);
+                rect.addEventListener('mousemove', moveTooltip);
+                
+                // Keyboard events
+                rect.addEventListener('focus', showTooltip);
+                rect.addEventListener('blur', hideTooltip);
+                rect.addEventListener('keydown', function(event) {
+                    // Add keyboard navigation
+                    if (event.key === 'ArrowLeft' && i > 0) {
+                        const prevBar = g.querySelectorAll('.bar')[i-1];
+                        prevBar.focus();
+                    } else if (event.key === 'ArrowRight' && i < chartData.length - 1) {
+                        const nextBar = g.querySelectorAll('.bar')[i+1];
+                        nextBar.focus();
+                    }
+                });
+                
+                function showTooltip(event) {
+                    tooltip.style.display = 'block';
+                    tooltip.innerHTML = `
+                        <strong>${d.quarter}</strong><br>
+                        Revenue: $${d.revenue.toLocaleString()}<br>
+                        ${d.growth ? `Growth: +${d.growth}%<br>` : ''}
+                        ${d.notes}
+                    `;
+                    moveTooltip(event);
+                }
+                
+                function hideTooltip() {
+                    tooltip.style.display = 'none';
+                }
+                
+                function moveTooltip(event) {
+                    // Get mouse coordinates relative to chart container
+                    const chartContainer = document.querySelector('.chart-container');
+                    const rect = chartContainer.getBoundingClientRect();
+                    
+                    let x, y;
+                    if (event.type === 'focus') {
+                        // Position tooltip based on bar position for keyboard focus
+                        const barRect = this.getBoundingClientRect();
+                        x = barRect.x - rect.x + barRect.width / 2;
+                        y = barRect.y - rect.y;
+                    } else {
+                        // Position tooltip based on mouse position
+                        x = event.clientX - rect.x;
+                        y = event.clientY - rect.y;
+                    }
+                    
+                    // Position tooltip
+                    tooltip.style.left = (x + 10) + 'px';
+                    tooltip.style.top = (y - 10) + 'px';
+                }
+            });
+            
+            // Toggle data table visibility
+            const toggleTableBtn = document.getElementById('toggle-table');
+            const dataTableContainer = document.getElementById('data-table-container');
+            
+            toggleTableBtn.addEventListener('click', function() {
+                const isExpanded = toggleTableBtn.getAttribute('aria-expanded') === 'true';
+                dataTableContainer.hidden = isExpanded;
+                toggleTableBtn.setAttribute('aria-expanded', !isExpanded);
+                toggleTableBtn.textContent = isExpanded ? 'Show Data Table' : 'Hide Data Table';
+            });
+            
+            // Download data as CSV functionality
+            const downloadBtn = document.getElementById('download-data');
+            
+            downloadBtn.addEventListener('click', function() {
+                // Create CSV content
+                let csvContent = 'Quarter,Revenue,Growth,Notes\n';
+                chartData.forEach(d => {
+                    csvContent += `${d.quarter},${d.revenue},${d.growth || ''},${d.notes}\n`;
+                });
+                
+                // Create download link
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.setAttribute('href', url);
+                link.setAttribute('download', 'quarterly_revenue_2024.csv');
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+            
+            // Make SVG responsive
+            function resizeChart() {
+                // This would be more complex with a full resize implementation
+                // For a complete solution, the chart would need to be redrawn
+                console.log('Window resized');
+            }
+            
+            window.addEventListener('resize', resizeChart);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Select-Only Combo Box – Accessible Example</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      line-height: 1.6;
+      margin: 2rem;
+      background-color: #f9f9f9;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    .combobox-wrapper {
+      position: relative;
+      max-width: 300px;
+    }
+
+    .combobox {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .listbox {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      border: 1px solid #ccc;
+      background: white;
+      max-height: 200px;
+      overflow-y: auto;
+      display: none;
+      z-index: 1000;
+    }
+
+    .listbox[aria-expanded="true"] {
+      display: block;
+    }
+
+    .option {
+      padding: 0.5rem;
+      cursor: pointer;
+    }
+
+    .option[aria-selected="true"],
+    .option:hover {
+      background-color: #e0e0e0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Select a Destination City</h1>
+  <p>
+    Use the combo box below to choose a city. Use the arrow keys to browse options and press Enter to select.
+  </p>
+
+  <div class="combobox-wrapper">
+    <label id="combo-label" for="combo1">Destination City</label>
+    <input
+      type="text"
+      role="combobox"
+      aria-autocomplete="none"
+      aria-haspopup="listbox"
+      aria-expanded="false"
+      aria-controls="listbox1"
+      aria-labelledby="combo-label"
+      id="combo1"
+      class="combobox"
+      autocomplete="off"
+      readonly
+    />
+
+    <ul
+      role="listbox"
+      id="listbox1"
+      class="listbox"
+    >
+      <!-- Options populated dynamically -->
+    </ul>
+  </div>
+
+  <script>
+    const cities = [
+      "New York", "London", "Tokyo", "Sydney", "Paris",
+      "Toronto", "Cape Town", "Berlin", "Dubai", "São Paulo"
+    ];
+
+    const input = document.getElementById("combo1");
+    const listbox = document.getElementById("listbox1");
+    let currentFocus = -1;
+
+    function renderOptions() {
+      listbox.innerHTML = "";
+      cities.forEach((city, index) => {
+        const option = document.createElement("li");
+        option.role = "option";
+        option.className = "option";
+        option.id = `option-${index}`;
+        option.setAttribute("aria-selected", "false");
+        option.textContent = city;
+        option.addEventListener("mousedown", () => {
+          input.value = city;
+          closeListbox();
+        });
+        listbox.appendChild(option);
+      });
+      listbox.setAttribute("aria-expanded", "true");
+    }
+
+    function closeListbox() {
+      listbox.innerHTML = "";
+      listbox.setAttribute("aria-expanded", "false");
+      currentFocus = -1;
+    }
+
+    input.addEventListener("focus", () => {
+      renderOptions();
+    });
+
+    input.addEventListener("keydown", (e) => {
+      const options = listbox.querySelectorAll(".option");
+      if (!options.length) return;
+
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        currentFocus = (currentFocus + 1) % options.length;
+        updateHighlight(options);
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        currentFocus = (currentFocus - 1 + options.length) % options.length;
+        updateHighlight(options);
+      } else if (e.key === "Enter" && currentFocus > -1) {
+        e.preventDefault();
+        input.value = options[currentFocus].textContent;
+        closeListbox();
+      } else if (e.key === "Escape") {
+        closeListbox();
+      }
+    });
+
+    function updateHighlight(options) {
+      options.forEach((opt, index) => {
+        opt.setAttribute("aria-selected", index === currentFocus ? "true" : "false");
+        if (index === currentFocus) {
+          opt.scrollIntoView({ block: "nearest" });
+        }
+      });
+    }
+
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".combobox-wrapper")) {
+        closeListbox();
+      }
+    });
+  </script>
+</body>
+</html>

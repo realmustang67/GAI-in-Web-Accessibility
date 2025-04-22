@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Email Notification Preferences</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 2rem;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    .container {
+      max-width: 600px;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      font-size: 1rem;
+      margin-top: 1rem;
+      cursor: pointer;
+    }
+
+    input[type="checkbox"] {
+      margin-right: 0.75rem;
+      width: 20px;
+      height: 20px;
+    }
+
+    input[type="checkbox"]:focus {
+      outline: 2px solid #005fcc;
+      outline-offset: 2px;
+    }
+
+    .status {
+      margin-top: 1rem;
+      font-weight: bold;
+      color: #005fcc;
+    }
+  </style>
+</head>
+<body>
+  <main class="container" role="main">
+    <h1>Email Notification Preferences</h1>
+    <p>
+      Stay updated with the latest announcements and updates. You can opt in or out of email notifications at any time.
+    </p>
+
+    <!-- Accessible two-state checkbox -->
+    <label for="notify-checkbox">
+      <input 
+        type="checkbox" 
+        id="notify-checkbox" 
+        name="emailNotifications" 
+        aria-checked="false"
+        aria-labelledby="notify-label"
+        role="checkbox"
+      />
+      <span id="notify-label">Receive email notifications</span>
+    </label>
+
+    <!-- Status message for screen readers and visual users -->
+    <div id="status" class="status" aria-live="polite"></div>
+  </main>
+
+  <script>
+    // JavaScript to update the aria-checked attribute and status message
+    const checkbox = document.getElementById('notify-checkbox');
+    const status = document.getElementById('status');
+
+    function updateStatus() {
+      const isChecked = checkbox.checked;
+      checkbox.setAttribute('aria-checked', isChecked.toString());
+      status.textContent = isChecked
+        ? 'Email notifications are enabled.'
+        : 'Email notifications are disabled.';
+    }
+
+    // Initialize status on page load
+    updateStatus();
+
+    checkbox.addEventListener('change', updateStatus);
+  </script>
+</body>
+</html>

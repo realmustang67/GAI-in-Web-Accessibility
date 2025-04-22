@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessible Accordion Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .accordion {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .accordion-header {
+            background-color: #f1f1f1;
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #ccc;
+        }
+        .accordion-content {
+            display: none;
+            padding: 10px;
+        }
+        .accordion-header:focus {
+            outline: 2px solid #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <h1>Accessible Accordion Example</h1>
+    <div class="accordion" id="accordion1">
+        <div class="accordion-header" id="accordion1-header" tabindex="0" role="button" aria-expanded="false" aria-controls="accordion1-content">
+            <h2>Accordion Item 1</h2>
+        </div>
+        <div class="accordion-content" id="accordion1-content" role="region" aria-labelledby="accordion1-header">
+            <p>This is the content of the first accordion item. It contains meaningful information that is relevant to the user.</p>
+        </div>
+    </div>
+    <div class="accordion" id="accordion2">
+        <div class="accordion-header" id="accordion2-header" tabindex="0" role="button" aria-expanded="false" aria-controls="accordion2-content">
+            <h2>Accordion Item 2</h2>
+        </div>
+        <div class="accordion-content" id="accordion2-content" role="region" aria-labelledby="accordion2-header">
+            <p>This is the content of the second accordion item. It contains additional information that complements the first item.</p>
+        </div>
+    </div>
+    <script>
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', function() {
+                const expanded = this.getAttribute('aria-expanded') === 'true';
+                this.setAttribute('aria-expanded', !expanded);
+                const content = document.getElementById(this.getAttribute('aria-controls'));
+                content.style.display = expanded ? 'none' : 'block';
+            });
+
+            header.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    this.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

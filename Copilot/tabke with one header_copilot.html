@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessible Table Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        caption {
+            caption-side: top;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body    <h1>Accessible Table Example</h1>
+    <table aria-labelledby="table-caption">
+        <caption id="table-caption">Employee Information</caption>
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Position</th>
+                <th scope="col">Office</th>
+                <th scope="col">Age</th>
+                <th scope="col">Start Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>John Doe</td>
+                <td>Software Engineer</td>
+                <td>New York</td>
+                <td>30</td>
+                <td>2019-01-15</td>
+            </tr>
+            <tr>
+                <td>Jane Smith</td>
+                <td>Project Manager</td>
+                <td>London</td>
+                <td>40</td>
+                <td>2018-03-22</td>
+            </tr>
+            <tr>
+                <td>Emily Johnson</td>
+                <td>UX Designer</td>
+                <td>San Francisco</td>
+                <td>28</td>
+                <td>2020-07-11</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        // JavaScript for keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            const focusableElements = document.querySelectorAll('table td');
+            let index = Array.prototype.indexOf.call(focusableElements, document.activeElement);
+
+            if (event.key === 'ArrowRight') {
+                index = (index + 1) % focusableElements.length;
+                focusableElements[index].focus();
+            } else if (event.key === 'ArrowLeft') {
+                index = (index - 1 + focusableElements.length) % focusableElements.length;
+                focusableElements[index].focus();
+            } else if (event.key === 'ArrowDown') {
+                index = (index + 5) % focusableElements.length;
+                focusableElements[index].focus();
+            } else if (event.key === 'ArrowUp') {
+                index = (index - 5 + focusableElements.length) % focusableElements.length;
+                focusableElements[index].focus();
+            }
+        });
+    </script>
+</body>
+</html>

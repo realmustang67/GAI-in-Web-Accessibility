@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Accessible FAQ accordion with information about sustainable gardening practices.">
+    <title>Accessible FAQ Accordion - Sustainable Gardening</title>
+    <!-- Ensure text size is adjustable by user -->
+    <style>
+        /* Reset default margins and ensure box-sizing */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+        }
+
+        /* Accordion container */
+        .accordion {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        /* Accordion item */
+        .accordion-item {
+            border-bottom: 1px solid #ccc;
+        }
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Accordion button */
+        .accordion-button {
+            background-color: #f7f7f7;
+            color: #2c3e50;
+            padding: 1rem;
+            width: 100%;
+            text-align: left;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+
+        .accordion-button:hover,
+        .accordion-button:focus {
+            background-color: #e0e0e0;
+            outline: none;
+        }
+
+        /* Focus state for accessibility */
+        .accordion-button:focus-visible {
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
+
+        /* Icon for open/closed state */
+        .accordion-button::after {
+            content: '\25BC'; /* Down arrow */
+            font-size: 0.8rem;
+            transition: transform 0.2s;
+        }
+
+        .accordion-button[aria-expanded="true"]::after {
+            transform: rotate(180deg); /* Up arrow when expanded */
+        }
+
+        /* Accordion content */
+        .accordion-content {
+            padding: 0 1rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+            background-color: #fff;
+        }
+
+        .accordion-content[aria-hidden="false"] {
+            padding: 1rem;
+        }
+
+        /* Ensure sufficient contrast */
+        a {
+            color: #007bff;
+            text-decoration: underline;
+        }
+
+        a:hover,
+        a:focus {
+            color: #0056b3;
+            outline: none;
+        }
+
+        a:focus-visible {
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .accordion-button {
+                font-size: 1rem;
+            }
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .accordion-button {
+                background-color: #000;
+                color: #fff;
+            }
+
+            .accordion-button:hover,
+            .accordion-button:focus {
+                background-color: #333;
+            }
+
+            .accordion-content {
+                background-color: #fff;
+                color: #000;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Main heading for the page -->
+        <h1>Sustainable Gardening FAQs</h1>
+    </header>
+
+    <main>
+        <!-- Accordion section with role="region" for clarity -->
+        <section class="accordion" role="region" aria-labelledby="accordion-heading">
+            <h2 id="accordion-heading" class="visually-hidden">Frequently Asked Questions</h2>
+
+            <!-- Accordion item 1 -->
+            <div class="accordion-item">
+                <!-- Button with ARIA attributes for accessibility -->
+                <button class="accordion-button" id="accordion-button-1" aria-expanded="false" aria-controls="accordion-content-1">
+                    What is companion planting?
+                </button>
+                <div class="accordion-content" id="accordion-content-1" role="region" aria-labelledby="accordion-button-1" aria-hidden="true">
+                    <p>
+                        Companion planting is the practice of growing different plants together to enhance growth, deter pests, or improve soil health. For example, planting marigolds near tomatoes can repel nematodes, while beans can enrich the soil with nitrogen for leafy greens.
+                    </p>
+                    <p>
+                        <a href="https://www.example.com/companion-planting">Learn more about companion planting</a>.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Accordion item 2 -->
+            <div class="accordion-item">
+                <button class="accordion-button" id="accordion-button-2" aria-expanded="false" aria-controls="accordion-content-2">
+                    How can I reduce water usage in my garden?
+                </button>
+                <div class="accordion-content" id="accordion-content-2" role="region" aria-labelledby="accordion-button-2" aria-hidden="true">
+                    <p>
+                        To reduce water usage, consider drip irrigation systems, mulching to retain soil moisture, and choosing drought-tolerant plants like lavender or succulents. Watering early in the morning also minimizes evaporation.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Accordion item 3 -->
+            <div class="accordion-item">
+                <button class="accordion-button" id="accordion-button-3" aria-expanded="false" aria-controls="accordion-content-3">
+                    What are the benefits of composting?
+                </button>
+                <div class="accordion-content" id="accordion-content-3" role="region" aria-labelledby="accordion-button-3" aria-hidden="true">
+                    <p>
+                        Composting recycles organic waste into nutrient-rich soil, improving soil structure and fertility. It reduces landfill waste, lowers greenhouse gas emissions, and supports healthier plant growth without chemical fertilizers.
+                    </p>
+                    <p>
+                        <a href="https://www.example.com/composting-guide">Read our composting guide</a>.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // JavaScript for accordion interactivity
+        (function () {
+            const buttons = document.querySelectorAll('.accordion-button');
+
+            buttons.forEach((button) => {
+                const content = document.getElementById(button.getAttribute('aria-controls'));
+
+                // Toggle accordion on click
+                button.addEventListener('click', () => {
+                    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+                    button.setAttribute('aria-expanded', !isExpanded);
+                    content.setAttribute('aria-hidden', isExpanded);
+                    // Dynamically set max-height for smooth transition
+                    if (!isExpanded) {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    } else {
+                        content.style.maxHeight = '0';
+                    }
+                });
+
+                // Handle keyboard navigation
+                button.addEventListener('keydown', (event) => {
+                    const index = Array.from(buttons).indexOf(button);
+                    let nextButton = null;
+
+                    switch (event.key) {
+                        case 'ArrowDown':
+                            // Move to next accordion item
+                            nextButton = buttons[index + 1];
+                            if (nextButton) nextButton.focus();
+                            event.preventDefault();
+                            break;
+                        case 'ArrowUp':
+                            // Move to previous accordion item
+                            nextButton = buttons[index - 1];
+                            if (nextButton) nextButton.focus();
+                            event.preventDefault();
+                            break;
+                        case 'Home':
+                            // Move to first accordion item
+                            buttons[0].focus();
+                            event.preventDefault();
+                            break;
+                        case 'End':
+                            // Move to last accordion item
+                            buttons[buttons.length - 1].focus();
+                            event.preventDefault();
+                            break;
+                        case 'Enter':
+                        case 'Space':
+                            // Toggle accordion on Enter or Space
+                            button.click();
+                            event.preventDefault();
+                            break;
+                    }
+                });
+            });
+        })();
+
+        // Utility to hide heading visually but keep it accessible to screen readers
+        const style = document.createElement('style');
+        style.textContent = `
+            .visually-hidden {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                padding: 0;
+                margin: -1px;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                border: 0;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!-- Replace only the password-related <div>s with the following: -->
+
+<div>
+  <label for="password">Password <span aria-hidden="true">*</span></label>
+  <div style="position: relative;">
+    <input type="password" id="password" name="password" required aria-required="true" aria-describedby="passwordError" />
+    <button
+      type="button"
+      class="toggle-password"
+      aria-label="Show password"
+      aria-pressed="false"
+      onclick="togglePassword('password', this)"
+    >
+      Show
+    </button>
+  </div>
+  <span id="passwordError" class="error" aria-live="polite"></span>
+</div>
+
+<div>
+  <label for="confirmPassword">Confirm Password <span aria-hidden="true">*</span></label>
+  <div style="position: relative;">
+    <input type="password" id="confirmPassword" name="confirmPassword" required aria-required="true" aria-describedby="confirmError" />
+    <button
+      type="button"
+      class="toggle-password"
+      aria-label="Show password"
+      aria-pressed="false"
+      onclick="togglePassword('confirmPassword', this)"
+    >
+      Show
+    </button>
+  </div>
+  <span id="confirmError" class="error" aria-live="polite"></span>
+</div>
+
+<!-- Add this CSS block to your existing styles -->
+<style>
+  .toggle-password {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    background: transparent;
+    border: none;
+    color: var(--primary-color);
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0.25rem;
+  }
+
+  .toggle-password:focus {
+    outline: 3px solid #000;
+    outline-offset: 2px;
+  }
+</style>
+
+<!-- Add this function inside your existing <script> block -->
+<script>
+  function togglePassword(fieldId, toggleBtn) {
+    const input = document.getElementById(fieldId);
+    const isVisible = input.type === 'text';
+
+    input.type = isVisible ? 'password' : 'text';
+    toggleBtn.textContent = isVisible ? 'Show' : 'Hide';
+    toggleBtn.setAttribute('aria-label', isVisible ? 'Show password' : 'Hide password');
+    toggleBtn.setAttribute('aria-pressed', String(!isVisible));
+  }
+</script>

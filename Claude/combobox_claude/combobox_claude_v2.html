@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessible Select-Only Combo Box</title>
+    <style>
+        /* Base styles and resets */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.5;
+            color: #333;
+            background-color: #f5f5f7;
+            margin: 0;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+
+        /* Form field container */
+        .form-field {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Label styling */
+        .combo-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        /* Combo box container */
+        .combo-container {
+            position: relative;
+        }
+
+        /* Combo box button styling */
+        .combo-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .combo-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            padding-right: 3rem;
+            font-size: 1rem;
+            border: 2px solid #cbd5e0;
+            border-radius: 4px;
+            background-color: #fff;
+            cursor: pointer;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .combo-input:hover {
+            border-color: #a0aec0;
+        }
+
+        .combo-input:focus {
+            outline: none;
+            border-color: #3182ce;
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.3);
+        }
+
+        /* Toggle button styling */
+        .combo-arrow {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #4a5568;
+            transition: transform 0.2s ease;
+        }
+
+        .expanded .combo-arrow {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        /* Listbox styling */
+        .combo-listbox {
+            position: absolute;
+            width: 100%;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 4px;
+            border: 2px solid #cbd5e0;
+            border-radius: 4px;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            display: none;
+        }
+
+        .combo-listbox.visible {
+            display: block;
+        }
+
+        /* Option styling */
+        .combo-option {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            user-select: none;
+            border-bottom: 1px solid #edf2f7;
+            position: relative;
+        }
+
+        .combo-option:last-child {
+            border-bottom: none;
+        }
+
+        .combo-option:hover {
+            background-color: #edf2f7;
+        }
+
+        .combo-option[aria-selected="true"] {
+            background-color: #ebf5ff;
+            font-weight: 600;
+        }
+
+        /* Fix: Add clear visual styling for the highlighted/focused option */
+        .combo-option.highlighted {
+            background-color: #e6f6ff;
+            outline: 2px solid #3182ce;
+            outline-offset: -2px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Fix: Add left border indicator for better focus visibility */
+        .combo-option.highlighted::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: #3182ce;
+        }
+
+        /* Focus styles */
+        .combo-option:focus {
+            outline: 2px solid #3182ce;
+            outline-offset: -2px;
+            background-color: #e6f6ff;
+        }
+
+        /* Messaging */
+        .combo-instructions {
+            font-size: 0.85rem;
+            color: #718096;
+            margin-top: 0.5rem;
+        }
+
+        /* High contrast focus indicators for accessibility */
+        @media (forced-colors: active) {
+            .combo-input:focus,
+            .combo-option:focus,
+            .combo-option.highlighted {
+                outline: 3px solid CanvasText;
+            }
+        }
+
+        /* Status message for screen readers */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>National Park Selection</h1>
+        <p>Use the combo box below to select a national park you'd like to visit.</p>
+
+        <form>
+            <div class="form-field">
+                <label id="park-label" for="park-input" class="combo-label">Select a National Park:</label>
+                
+                <div class="combo-container">
+                    <div class="combo-input-wrapper">
+                        <input 
+                            type="text"
+                            id="park-input"
+                            class="combo-input"
+                            role="combobox"
+                            aria-autocomplete="list"
+                            aria-expanded="false"
+                            aria-controls="park-listbox"
+                            aria-labelledby="park-label"
+                            aria-activedescendant=""
+                            aria-readonly="true"
+                            readonly
+                            placeholder="Select a park..."
+                            autocomplete="off"
+                        >
+                        <span class="combo-arrow" aria-hidden="true"></span>
+                    </div>
+                    
+                    <ul 
+                        id="park-listbox"
+                        class="combo-listbox"
+                        role="listbox"
+                        aria-labelledby="park-label"
+                        tabindex="-1"
+                    >
+                        <li 
+                            id="option-1" 
+                            class="combo-option" 
+                            role="option" 
+                            aria-selected="false"
+                            tabindex="-1"
+                        >
+                            Yellowstone National Park
+                        </li>
+                        <li 
+                            id="option-2" 
+                            class="combo-option" 
+                            role="option" 
+                            aria-selected="false"
+                            tabindex="-1"
+                        >
+                            Grand Canyon National Park
+                        </li>
+                        <li 
+                            id="option-3" 
+                            class="combo-option" 
+                            role="option" 
+                            aria-selected="false"
+                            tabindex="-1"
+                        >
+                            Yosemite National Park
+                        </li>
+                        <li 
+                            id="option-4" 
+                            class="combo-option" 
+                            role="option" 
+                            aria-selected="false"
+                            tabindex="-1"
+                        >
+                            Zion National Park
+                        </li>
+                        <li 
+                            id="option-5" 
+                            class="combo-option" 
+                            role="option" 
+                            aria-selected="false"
+                            tabindex="-1"
+                        >
+                            Acadia National Park
+                        </li>
+                        <li 
+                            id="option-6" 
+                            class="combo-option" 
+                            role="option" 
+                            aria-selected="false"
+                            tabindex="-1"
+                        >
+                            Olympic National Park
+                        </li>
+                        <li 
+                            id="option-7" 
+                            class="combo-option" 
+                            role="option" 
+                            aria-selected="false"
+                            tabindex="-1"
+                        >
+                            Great Smoky Mountains National Park
+                        </li>
+                    </ul>
+                </div>
+                
+                <div id="combo-instructions" class="combo-instructions">
+                    Press Down Arrow to open the dropdown. Use Up and Down arrows to navigate, Enter or Space to select.
+                </div>
+                
+                <!-- Live region for announcing changes to screen readers -->
+                <div aria-live="polite" class="sr-only" id="combo-status"></div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Main elements
+            const comboInput = document.getElementById('park-input');
+            const comboContainer = comboInput.closest('.combo-container');
+            const comboListbox = document.getElementById('park-listbox');
+            const comboOptions = comboListbox.querySelectorAll('.combo-option');
+            const comboStatus = document.getElementById('combo-status');
+
+            // Track state
+            let isExpanded = false;
+            let activeIndex = -1;
+
+            // Function to open the dropdown
+            function openCombobox() {
+                if (isExpanded) return;
+                
+                comboListbox.classList.add('visible');
+                comboInput.setAttribute('aria-expanded', 'true');
+                comboContainer.classList.add('expanded');
+                isExpanded = true;
+
+                // If there was a previously selected option, highlight it
+                for (let i = 0; i < comboOptions.length; i++) {
+                    if (comboOptions[i].getAttribute('aria-selected') === 'true') {
+                        activeIndex = i;
+                        break;
+                    }
+                }
+
+                // If we have an active index, highlight it, otherwise highlight the first option
+                if (activeIndex >= 0) {
+                    highlightOption(activeIndex);
+                } else {
+                    highlightOption(0);
+                }
+                
+                // Announce to screen readers that the dropdown is now expanded
+                comboStatus.textContent = 'Dropdown is now expanded. Use arrow keys to navigate options.';
+            }
+
+            // Function to close the dropdown
+            function closeCombobox() {
+                if (!isExpanded) return;
+                
+                comboListbox.classList.remove('visible');
+                comboInput.setAttribute('aria-expanded', 'false');
+                comboContainer.classList.remove('expanded');
+                isExpanded = false;
+                
+                // Clear active descendant when closing
+                comboInput.setAttribute('aria-activedescendant', '');
+                
+                // Clear highlighted class from all options when closing
+                comboOptions.forEach(option => {
+                    option.classList.remove('highlighted');
+                });
+                
+                // Announce to screen readers that the dropdown is now closed
+                if (comboInput.value) {
+                    comboStatus.textContent = 'Dropdown is now closed.';
+                }
+            }
+
+            // Function to highlight a specific option
+            function highlightOption(index) {
+                // Check bounds
+                if (index < 0) index = comboOptions.length - 1;
+                if (index >= comboOptions.length) index = 0;
+                
+                // Remove highlighting from all options
+                comboOptions.forEach(option => {
+                    option.classList.remove('highlighted');
+                });
+                
+                // Highlight the selected option
+                activeIndex = index;
+                const activeOption = comboOptions[activeIndex];
+                activeOption.classList.add('highlighted');
+                
+                // Set aria-activedescendant to the highlighted option
+                comboInput.setAttribute('aria-activedescendant', activeOption.id);
+                
+                // Announce the currently highlighted option to screen readers
+                comboStatus.textContent = `Navigated to: ${activeOption.textContent.trim()}`;
+                
+                // Ensure the active option is visible in the scrollable listbox
+                const listboxRect = comboListbox.getBoundingClientRect();
+                const optionRect = activeOption.getBoundingClientRect();
+                
+                if (optionRect.top < listboxRect.top) {
+                    comboListbox.scrollTop -= (listboxRect.top - optionRect.top);
+                } else if (optionRect.bottom > listboxRect.bottom) {
+                    comboListbox.scrollTop += (optionRect.bottom - listboxRect.bottom);
+                }
+            }
+
+            // Function to select an option
+            function selectOption(index) {
+                if (index < 0 || index >= comboOptions.length) return;
+                
+                // Update the selected option
+                comboOptions.forEach((option, i) => {
+                    option.setAttribute('aria-selected', i === index ? 'true' : 'false');
+                });
+                
+                // Set the input value to the selected option text
+                const selectedOption = comboOptions[index];
+                comboInput.value = selectedOption.textContent.trim();
+                
+                // Announce selection to screen readers
+                comboStatus.textContent = `Selected: ${selectedOption.textContent.trim()}`;
+                
+                // Close the dropdown
+                closeCombobox();
+                
+                // Return focus to the input
+                comboInput.focus();
+            }
+
+            // Event listener for clicking the input
+            comboInput.addEventListener('click', function() {
+                if (isExpanded) {
+                    closeCombobox();
+                } else {
+                    openCombobox();
+                }
+            });
+
+            // Event listener for keyboard navigation
+            comboInput.addEventListener('keydown', function(event) {
+                switch (event.key) {
+                    case 'ArrowDown':
+                        if (!isExpanded) {
+                            openCombobox();
+                        } else {
+                            highlightOption(activeIndex + 1);
+                        }
+                        event.preventDefault();
+                        break;
+                        
+                    case 'ArrowUp':
+                        if (isExpanded) {
+                            highlightOption(activeIndex - 1);
+                            event.preventDefault();
+                        }
+                        break;
+                        
+                    case 'Home':
+                        if (isExpanded) {
+                            highlightOption(0);
+                            event.preventDefault();
+                        }
+                        break;
+                        
+                    case 'End':
+                        if (isExpanded) {
+                            highlightOption(comboOptions.length - 1);
+                            event.preventDefault();
+                        }
+                        break;
+                        
+                    case 'Enter':
+                    case ' ':
+                        if (isExpanded && activeIndex >= 0) {
+                            selectOption(activeIndex);
+                            event.preventDefault();
+                        } else if (!isExpanded && event.key === ' ') {
+                            openCombobox();
+                            event.preventDefault();
+                        }
+                        break;
+                        
+                    case 'Escape':
+                        if (isExpanded) {
+                            closeCombobox();
+                            event.preventDefault();
+                        }
+                        break;
+                        
+                    case 'Tab':
+                        if (isExpanded) {
+                            closeCombobox();
+                        }
+                        break;
+                }
+            });
+
+            // Delegate event listener for clicking on options
+            comboListbox.addEventListener('click', function(event) {
+                const clickedOption = event.target.closest('.combo-option');
+                if (clickedOption) {
+                    const index = Array.from(comboOptions).indexOf(clickedOption);
+                    selectOption(index);
+                }
+            });
+
+            // Add mouseover event to highlight options when hovering
+            comboListbox.addEventListener('mouseover', function(event) {
+                const hoveredOption = event.target.closest('.combo-option');
+                if (hoveredOption) {
+                    const index = Array.from(comboOptions).indexOf(hoveredOption);
+                    if (index !== activeIndex) {
+                        highlightOption(index);
+                    }
+                }
+            });
+
+            // Event listener for focus
+            comboInput.addEventListener('focus', function() {
+                // Make the focus styling obvious
+                comboContainer.classList.add('focused');
+            });
+
+            // Event listener for blur
+            comboInput.addEventListener('blur', function(event) {
+                // Don't close immediately to allow for clicks on options
+                comboContainer.classList.remove('focused');
+                setTimeout(function() {
+                    // Check if the focus moved inside the listbox
+                    if (!comboListbox.contains(document.activeElement)) {
+                        closeCombobox();
+                    }
+                }, 100);
+            });
+
+            // Handle clicks outside to close
+            document.addEventListener('click', function(event) {
+                if (!comboContainer.contains(event.target)) {
+                    closeCombobox();
+                }
+            });
+
+            // Initialize first option as selected (optional)
+            if (comboOptions.length > 0) {
+                // We're starting with an empty selection for this example
+                // If you want a default selection, uncomment the next line
+                // selectOption(0);
+            }
+        });
+    </script>
+</body>
+</html>

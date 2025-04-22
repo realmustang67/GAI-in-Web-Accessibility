@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accessible Web Page with Skip Link</title>
+  <style>
+    /* Visually hidden until focused */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: #004080;
+      color: #fff;
+      padding: 8px 16px;
+      z-index: 100;
+      text-decoration: none;
+      transition: top 0.3s;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      background-color: #f9f9f9;
+      color: #222;
+    }
+
+    header, nav, main, footer {
+      padding: 20px;
+    }
+
+    header {
+      background-color: #003366;
+      color: #fff;
+    }
+
+    nav a {
+      margin-right: 15px;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    nav a:focus,
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      background-color: #fff;
+    }
+
+    footer {
+      background-color: #eee;
+      text-align: center;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <!-- Skip Link for Keyboard Users -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Site Header -->
+  <header role="banner">
+    <h1>Accessible News Portal</h1>
+    <nav role="navigation" aria-label="Primary">
+      <a href="#news">News</a>
+      <a href="#features">Features</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content" role="main">
+    <article>
+      <h2 id="news">Top Story: Local Community Garden Expands</h2>
+      <p>
+        The GreenLeaf Community Garden announced plans to expand their program to include educational
+        workshops for local schools. Volunteers are welcome every weekend.
+      </p>
+    </article>
+
+    <section aria-labelledby="features">
+      <h2 id="features">Featured Articles</h2>
+      <ul>
+        <li><a href="#">5 Easy Ways to Grow Herbs at Home</a></li>
+        <li><a href="#">Interview with Urban Farming Expert, Maya Lee</a></li>
+        <li><a href="#">How Green Spaces Improve Mental Health</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer role="contentinfo">
+    <p>&copy; 2025 Accessible News Portal. All rights reserved.</p>
+    <p><a href="#main-content">Back to top</a></p>
+  </footer>
+
+  <!-- Optional JavaScript for interactivity -->
+  <script>
+    // Example JS enhancement: Focus visual effect when using keyboard
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Tab') {
+        document.body.classList.add('user-is-tabbing');
+      }
+    });
+  </script>
+</body>
+</html>

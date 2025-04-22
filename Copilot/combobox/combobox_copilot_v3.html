@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessible Combo Box Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .combo-box {
+            position: relative;
+            display: inline-block;
+        }
+        .combo-box input {
+            width: 200px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .combo-box ul {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: none;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .combo-box ul li {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .combo-box ul li:hover,
+        .combo-box ul li[aria-selected="true"] {
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Accessible Combo Box Example</h1>
+    <div class="combo-box" role="combobox" aria-haspopup="listbox" aria-expanded="false">
+        <input type="text" aria-controls="combo-box-list" aria-autocomplete="list" aria-activedescendant="" placeholder="Select an option" aria-label="Select an option">
+        <ul id="combo-box-list" role="listbox">
+            <li role="option" aria-selected="false">Option 1</li>
+            <li role="option" aria-selected="false">Option 2</li>
+            <li role="option" aria-selected="false">Option 3</li>
+            <li role="option" aria-selected="false">Option 4</li>
+        </ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const comboBox = document.querySelector('.combo-box');
+            const input = comboBox.querySelector('input');
+            const listbox = comboBox.querySelector('ul');
+            const options = listbox.querySelectorAll('li');
+
+            input.addEventListener('focus', () => {
+                listbox.style.display = 'block';
+                comboBox.setAttribute('aria-expanded', 'true');
+            });
+
+            input.addEventListener('blur', () => {
+                setTimeout(() => {
+                    listbox.style.display = 'none';
+                    comboBox.setAttribute('aria-expanded', 'false');
+                }, 100);
+            });
+
+            options.forEach(option => {
+                option.addEventListener('click', () => {
+                    input.value = option.textContent;
+                    listbox.style.display = 'none';
+                    comboBox.setAttribute('aria-expanded', 'false');
+                });
+
+                option.addEventListener('mouseover', () => {
+                    options.forEach(opt => opt.setAttribute('aria-selected', 'false'));
+                    option.setAttribute('aria-selected', 'true');
+                });
+            });
+
+            input.addEventListener('keydown', (e) => {
+                let index = Array.from(options).findIndex(opt => opt.getAttribute('aria-selected') === 'true');
+                if (e.key === 'ArrowDown') {
+                    index = (index + 1) % options.length;
+                    options.forEach(opt => opt.setAttribute('aria-selected', 'false'));
+                    options[index].setAttribute('aria-selected', 'true');
+                    input.setAttribute('aria-activedescendant', options[index].id);
+                } else if (e.key === 'ArrowUp') {
+                    index = (index - 1 + options.length) % options.length;
+                    options.forEach(opt => opt.setAttribute('aria-selected', 'false'));
+                    options[index].setAttribute('aria-selected', 'true');
+                    input.setAttribute('aria-activedescendant', options[index].id);
+                } else if (e.key === 'Enter') {
+                    input.value = options[index].textContent;
+                    listbox.style.display = 'none';
+                    comboBox.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

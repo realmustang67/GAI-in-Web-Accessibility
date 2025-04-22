@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accessible Sign Up Form</title>
+  <style>
+    :root {
+      --primary-color: #005a9c;
+      --error-color: #b00020;
+      --success-color: #007e33;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      background-color: #f9f9f9;
+      color: #222;
+      margin: 0;
+      padding: 0;
+    }
+
+    a.skip-link {
+      position: absolute;
+      left: -999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    a.skip-link:focus {
+      position: static;
+      width: auto;
+      height: auto;
+      background: #000;
+      color: #fff;
+      padding: 0.5em;
+      z-index: 1000;
+    }
+
+    header, main, footer {
+      padding: 1rem;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 2rem auto;
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      color: var(--primary-color);
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input, button {
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 100%;
+    }
+
+    .error {
+      color: var(--error-color);
+      font-size: 0.9rem;
+    }
+
+    .success {
+      color: var(--success-color);
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: var(--primary-color);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    button:focus {
+      outline: 3px solid #000;
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header role="banner">
+    <h1>Join Our Community</h1>
+    <p>Sign up to access exclusive content and community features.</p>
+  </header>
+
+  <main id="main-content" role="main">
+    <div class="container">
+      <h2>Sign Up</h2>
+      <form id="signupForm" novalidate aria-describedby="formInstructions">
+        <p id="formInstructions">All fields marked with an asterisk (*) are required.</p>
+
+        <div>
+          <label for="fullName">Full Name <span aria-hidden="true">*</span></label>
+          <input type="text" id="fullName" name="fullName" required aria-required="true" aria-describedby="nameError" />
+          <span id="nameError" class="error" aria-live="polite"></span>
+        </div>
+
+        <div>
+          <label for="email">Email Address <span aria-hidden="true">*</span></label>
+          <input type="email" id="email" name="email" required aria-required="true" aria-describedby="emailError" />
+          <span id="emailError" class="error" aria-live="polite"></span>
+        </div>
+
+        <div>
+          <label for="password">Password <span aria-hidden="true">*</span></label>
+          <input type="password" id="password" name="password" required aria-required="true" aria-describedby="passwordError" />
+          <span id="passwordError" class="error" aria-live="polite"></span>
+        </div>
+
+        <div>
+          <label for="confirmPassword">Confirm Password <span aria-hidden="true">*</span></label>
+          <input type="password" id="confirmPassword" name="confirmPassword" required aria-required="true" aria-describedby="confirmError" />
+          <span id="confirmError" class="error" aria-live="polite"></span>
+        </div>
+
+        <button type="submit" aria-label="Submit sign-up form">Create Account</button>
+        <p id="formSuccess" class="success" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </main>
+
+  <footer role="contentinfo">
+    <p>&copy; 2025 Example Company. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Basic client-side form validation for accessibility
+    const form = document.getElementById('signupForm');
+    const nameField = document.getElementById('fullName');
+    const emailField = document.getElementById('email');
+    const passwordField = document.getElementById('password');
+    const confirmField = document.getElementById('confirmPassword');
+    const successMsg = document.getElementById('formSuccess');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Clear previous messages
+      document.querySelectorAll('.error').forEach(el => el.textContent = '');
+      successMsg.textContent = '';
+
+      let valid = true;
+
+      if (nameField.value.trim() === '') {
+        document.getElementById('nameError').textContent = 'Full name is required.';
+        nameField.setAttribute('aria-invalid', 'true');
+        valid = false;
+      } else {
+        nameField.removeAttribute('aria-invalid');
+      }
+
+      if (!emailField.value.match(/^\S+@\S+\.\S+$/)) {
+        document.getElementById('emailError').textContent = 'Enter a valid email address.';
+        emailField.setAttribute('aria-invalid', 'true');
+        valid = false;
+      } else {
+        emailField.removeAttribute('aria-invalid');
+      }
+
+      if (passwordField.value.length < 6) {
+        document.getElementById('passwordError').textContent = 'Password must be at least 6 characters.';
+        passwordField.setAttribute('aria-invalid', 'true');
+        valid = false;
+      } else {
+        passwordField.removeAttribute('aria-invalid');
+      }
+
+      if (passwordField.value !== confirmField.value) {
+        document.getElementById('confirmError').textContent = 'Passwords do not match.';
+        confirmField.setAttribute('aria-invalid', 'true');
+        valid = false;
+      } else {
+        confirmField.removeAttribute('aria-invalid');
+      }
+
+      if (valid) {
+        successMsg.textContent = 'Sign up successful!';
+        form.reset();
+      }
+    });
+  </script>
+</body>
+</html>

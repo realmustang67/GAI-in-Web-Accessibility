@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sustainable Urban Living - Featured Article</title>
+    <meta name="description" content="Learn about sustainable urban living practices in modern cities">
+    <!-- CSS for styling -->
+    <style>
+        /* Base styles for better readability */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Ensuring sufficient color contrast for accessibility */
+        h1 {
+            color: #005A9C;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            color: #2C5282;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Article styling */
+        .article {
+            margin: 2rem 0;
+            padding: 0 1rem;
+        }
+
+        /* Image container styling */
+        .image-container {
+            max-width: 100%;
+            margin: 2rem 0;
+            /* Clear visual indication of image boundary */
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* Responsive image styling */
+        .decorative-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            /* Visual indication that the image loaded */
+            transition: opacity 0.3s ease;
+        }
+
+        /* Focus indicator for better keyboard navigation */
+        :focus {
+            outline: 3px solid #4299e1;
+            outline-offset: 2px;
+        }
+
+        /* Skip link for keyboard users */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #005A9C;
+            color: white;
+            padding: 8px;
+            z-index: 100;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* Footer styling */
+        footer {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ddd;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip link for keyboard navigation -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header>
+        <h1>Sustainable Urban Living</h1>
+    </header>
+
+    <main id="main-content">
+        <article class="article">
+            <h2>Creating Green Spaces in Urban Environments</h2>
+            
+            <p>Urban environments are increasingly incorporating green spaces to combat the effects of concrete jungles. These initiatives not only beautify cities but also contribute to improved air quality and mental well-being of residents.</p>
+
+            <!-- Decorative image implementation -->
+            <figure class="image-container">
+                <!-- 
+                    Note: This is a decorative image with empty alt attribute
+                    Empty alt is used because the image is decorative and does not convey information
+                    that is not already present in the surrounding content
+                -->
+                <img 
+                    src="/api/placeholder/1200/600" 
+                    class="decorative-image" 
+                    alt="" 
+                    role="presentation" 
+                    aria-hidden="true"
+                >
+                <!-- Caption provides context but the image itself is still decorative -->
+                <figcaption>Modern urban park with sustainable landscaping elements</figcaption>
+            </figure>
+
+            <p>Community gardens, rooftop parks, and vertical plantings are transforming urban landscapes across the globe. These green spaces serve as carbon sinks, temperature regulators, and havens for biodiversity in otherwise concrete-dominated environments.</p>
+            
+            <p>Urban planners are now prioritizing the integration of natural elements into city design, recognizing their importance in creating resilient and livable urban spaces for future generations.</p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Sustainable Urban Living Magazine. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // JavaScript for image loading feedback
+        document.addEventListener('DOMContentLoaded', function() {
+            const decorativeImage = document.querySelector('.decorative-image');
+            
+            // Set initial reduced opacity
+            decorativeImage.style.opacity = '0.7';
+            
+            // When image is fully loaded, set to full opacity
+            decorativeImage.onload = function() {
+                decorativeImage.style.opacity = '1';
+            };
+            
+            // If image fails to load, add a class that could be styled appropriately
+            decorativeImage.onerror = function() {
+                decorativeImage.classList.add('image-load-failed');
+                // Since this is decorative, no announcement is needed
+            };
+            
+            // Ensure all interactive elements are keyboard accessible
+            const focusableElements = document.querySelectorAll('a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+            focusableElements.forEach(element => {
+                element.addEventListener('focus', function() {
+                    this.setAttribute('data-focused', 'true');
+                });
+                element.addEventListener('blur', function() {
+                    this.removeAttribute('data-focused');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

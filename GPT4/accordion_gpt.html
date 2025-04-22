@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Accessible Accordion Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 2rem;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    .accordion {
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+      max-width: 600px;
+      margin-top: 1rem;
+      background-color: #fff;
+    }
+
+    .accordion-item {
+      border-top: 1px solid #ccc;
+    }
+
+    .accordion-item:first-child {
+      border-top: none;
+    }
+
+    .accordion-header {
+      margin: 0;
+    }
+
+    .accordion-button {
+      all: unset;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 1rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .accordion-button:focus {
+      outline: 3px solid #005fcc;
+      outline-offset: 2px;
+    }
+
+    .accordion-panel {
+      padding: 1rem;
+      display: none;
+    }
+
+    .accordion-panel[hidden] {
+      display: none;
+    }
+
+    .accordion-panel[aria-hidden="false"] {
+      display: block;
+    }
+
+    .icon {
+      font-size: 1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .accordion-button[aria-expanded="true"] .icon {
+      transform: rotate(90deg);
+    }
+  </style>
+</head>
+<body>
+  <h1>Frequently Asked Questions</h1>
+  <div class="accordion" id="accordion-1">
+    
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="accordion-header-1">
+        <button
+          class="accordion-button"
+          aria-expanded="false"
+          aria-controls="accordion-panel-1"
+          id="accordion-button-1"
+          role="button"
+        >
+          What is your return policy?
+          <span class="icon" aria-hidden="true">▶</span>
+        </button>
+      </h2>
+      <div
+        id="accordion-panel-1"
+        class="accordion-panel"
+        role="region"
+        aria-labelledby="accordion-button-1"
+        aria-hidden="true"
+        hidden
+      >
+        <p>We offer a 30-day return policy for all unused items in their original packaging. Contact our support team for return instructions.</p>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="accordion-header-2">
+        <button
+          class="accordion-button"
+          aria-expanded="false"
+          aria-controls="accordion-panel-2"
+          id="accordion-button-2"
+          role="button"
+        >
+          Do you offer international shipping?
+          <span class="icon" aria-hidden="true">▶</span>
+        </button>
+      </h2>
+      <div
+        id="accordion-panel-2"
+        class="accordion-panel"
+        role="region"
+        aria-labelledby="accordion-button-2"
+        aria-hidden="true"
+        hidden
+      >
+        <p>Yes, we ship internationally to most countries. Shipping costs and delivery times may vary depending on the destination.</p>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="accordion-header-3">
+        <button
+          class="accordion-button"
+          aria-expanded="false"
+          aria-controls="accordion-panel-3"
+          id="accordion-button-3"
+          role="button"
+        >
+          How can I track my order?
+          <span class="icon" aria-hidden="true">▶</span>
+        </button>
+      </h2>
+      <div
+        id="accordion-panel-3"
+        class="accordion-panel"
+        role="region"
+        aria-labelledby="accordion-button-3"
+        aria-hidden="true"
+        hidden
+      >
+        <p>Once your order is shipped, you will receive an email with tracking information. You can also track orders from your account dashboard.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll('.accordion-button');
+
+    buttons.forEach((button, index) => {
+      button.addEventListener('click', () => {
+        const expanded = button.getAttribute('aria-expanded') === 'true';
+        const panel = document.getElementById(button.getAttribute('aria-controls'));
+        
+        // Toggle ARIA and visibility
+        button.setAttribute('aria-expanded', String(!expanded));
+        panel.setAttribute('aria-hidden', String(expanded));
+        panel.hidden = expanded;
+      });
+
+      // Add keyboard navigation support
+      button.addEventListener('keydown', (e) => {
+        const key = e.key;
+        const total = buttons.length;
+        let newIndex = index;
+
+        if (key === 'ArrowDown') {
+          newIndex = (index + 1) % total;
+          buttons[newIndex].focus();
+        } else if (key === 'ArrowUp') {
+          newIndex = (index - 1 + total) % total;
+          buttons[newIndex].focus();
+        } else if (key === 'Home') {
+          buttons[0].focus();
+        } else if (key === 'End') {
+          buttons[total - 1].focus();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

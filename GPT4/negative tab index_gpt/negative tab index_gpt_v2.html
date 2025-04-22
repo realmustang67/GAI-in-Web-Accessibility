@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accessible Modal Dialog (Revised)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      padding: 2rem;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background-color: #fff;
+      padding: 2rem;
+      max-width: 500px;
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal h2 {
+      margin-top: 0;
+    }
+
+    .modal button {
+      margin-top: 1rem;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Our Website</h1>
+  <p>Click the button below to learn more about our data privacy policy.</p>
+
+  <button id="openModal" aria-haspopup="dialog" aria-controls="privacyModal">
+    View Privacy Policy
+  </button>
+
+  <!-- Modal Dialog -->
+  <div
+    id="modalOverlay"
+    class="modal-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalTitle"
+    aria-describedby="modalDescription"
+    aria-hidden="true"
+  >
+    <div class="modal" id="privacyModal" tabindex="-1">
+      <h2 id="modalTitle">Privacy Policy</h2>
+      <p id="modalDescription">
+        We are committed to protecting your personal data. This policy outlines how we handle and secure your information.
+      </p>
+      <button id="closeModal">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const openBtn = document.getElementById("openModal");
+    const modalOverlay = document.getElementById("modalOverlay");
+    const modal = document.getElementById("privacyModal");
+    const closeBtn = document.getElementById("closeModal");
+
+    // Utility: Get all focusable elements inside modal
+    function getFocusableElements() {
+      return modal.querySelectorAll(
+        'a[href], area[href], input:not([disabled]), select:not([disabled]), ' +
+        'textarea:not([disabled]), button:not([disabled]), iframe, object, embed, ' +
+        '[tabindex]:not([tabindex="-1"]), [contenteditable]'
+      );
+    }
+
+    // Focus trap
+    function trapFocus(e) {
+      const focusable = getFocusableElements();
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.key === "Tab") {
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      }
+    }
+
+    openBtn.addEventListener("click", () => {
+      modalOverlay.classList.add("active");
+      modalOverlay.setAttribute("aria-hidden", "false");
+      modal.focus();
+
+      // Add event listener for focus trap
+      document.addEventListener("keydown", trapFocus);
+    });
+
+    closeBtn.addEventListener("click", () => {
+      modalOverlay.classList.remove("active");
+      modalOverlay.setAttribute("aria-hidden", "true");
+      openBtn.focus();
+
+      // Remove event listener for focus trap
+      document.removeEventListener("keydown", trapFocus);
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modalOverlay.classList.contains("active")) {
+        modalOverlay.classList.remove("active");
+        modalOverlay.setAttribute("aria-hidden", "true");
+        openBtn.focus();
+        document.removeEventListener("keydown", trapFocus);
+      }
+    });
+  </script>
+</body>
+</html>

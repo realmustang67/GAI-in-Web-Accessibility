@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A table listing upcoming community events, designed for accessibility.">
+    <title>Accessible Community Events Table</title>
+    <!-- Accessibility: Descriptive meta tags for screen readers and SEO -->
+    <style>
+        /* Reset default margins and ensure readable font */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+
+        /* Main content container */
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #005a87;
+        }
+
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Accessibility: Ensure sufficient contrast and readable font size */
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }
+
+        th {
+            background-color: #005a87;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        /* Visual cue for sortable column */
+        th button {
+            background: none;
+            border: none;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            padding: 0;
+            font-size: inherit;
+        }
+
+        /* Accessibility: Focus styles for keyboard navigation */
+        th button:focus {
+            outline: 2px solid #ffbf47;
+            outline-offset: 2px;
+        }
+
+        /* Highlight row on hover for better UX */
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* Accessibility: Caption styling */
+        caption {
+            font-size: 1.1rem;
+            font-weight: bold;
+            padding: 10px;
+            text-align: left;
+            color: #333;
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 600px) {
+            th, td {
+                font-size: 0.9rem;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <!-- Accessibility: Semantic heading for page context -->
+        <h1>Upcoming Community Events</h1>
+
+        <!-- Accessibility: Table with caption for context -->
+        <table role="grid" aria-describedby="events-table-caption">
+            <!-- Accessibility: Caption describes table purpose -->
+            <caption id="events-table-caption">
+                List of upcoming community events with details
+            </caption>
+            <thead>
+                <tr>
+                    <!-- Accessibility: Scope attribute for screen readers -->
+                    <th scope="col">Event Name</th>
+                    <th scope="col">
+                        <!-- Accessibility: ARIA sort attributes for sortable column -->
+                        <button type="button" 
+                                aria-sort="none" 
+                                id="sort-date" 
+                                aria-label="Sort by Date">
+                            Date
+                        </button>
+                    </th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Realistic content for table rows -->
+                <tr>
+                    <td>Spring Book Fair</td>
+                    <td data-date="2025-04-15">April 15, 2025</td>
+                    <td>Central Library</td>
+                    <td>Explore new releases and meet local authors.</td>
+                </tr>
+                <tr>
+                    <td>Community Clean-Up</td>
+                    <td data-date="2025-05-10">May 10, 2025</td>
+                    <td>Riverside Park</td>
+                    <td>Join neighbors to beautify our park.</td>
+                </tr>
+                <tr>
+                    <td>Summer Music Festival</td>
+                    <td data-date="2025-06-20">June 20, 2025</td>
+                    <td>Downtown Square</td>
+                    <td>Enjoy live bands and food trucks.</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+    <script>
+        // JavaScript for interactive sorting by date
+        const sortButton = document.getElementById('sort-date');
+        const tableBody = document.querySelector('tbody');
+        let isAscending = true;
+
+        sortButton.addEventListener('click', () => {
+            // Toggle sort direction
+            isAscending = !isAscending;
+
+            // Update ARIA sort attribute
+            sortButton.setAttribute('aria-sort', isAscending ? 'ascending' : 'descending');
+            sortButton.setAttribute('aria-label', 
+                `Sort by Date (${isAscending ? 'ascending' : 'descending'})`);
+
+            // Get rows and sort
+            const rows = Array.from(tableBody.querySelectorAll('tr'));
+            rows.sort((a, b) => {
+                const dateA = new Date(a.querySelector('[data-date]').dataset.date);
+                const dateB = new Date(b.querySelector('[data-date]').dataset.date);
+                return isAscending ? dateA - dateB : dateB - dateA;
+            });
+
+            // Re-append sorted rows
+            tableBody.innerHTML = '';
+            rows.forEach(row => tableBody.appendChild(row));
+
+            // Accessibility: Announce sort change to screen readers
+            const liveRegion = document.createElement('div');
+            liveRegion.setAttribute('aria-live', 'polite');
+            liveRegion.setAttribute('role', 'status');
+            liveRegion.style.position = 'absolute';
+            liveRegion.style.width = '1px';
+            liveRegion.style.height = '1px';
+            liveRegion.style.overflow = 'hidden';
+            liveRegion.textContent = `Table sorted by date in ${isAscending ? 'ascending' : 'descending'} order.`;
+            document.body.appendChild(liveRegion);
+            setTimeout(() => liveRegion.remove(), 1000);
+        });
+
+        // Accessibility: Enable keyboard interaction for sort button
+        sortButton.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                sortButton.click();
+            }
+        });
+    </script>
+</body>
+</html>

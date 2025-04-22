@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessible Web Component</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header, main, footer {
+            padding: 20px;
+            margin: 10px;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+        }
+        main {
+            background-color: #fff;
+            padding: 20px;
+            border-radius:  .decorative-image {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Our Accessible Web Page</h1>
+    </header>
+    <main>
+        <h2>About Us</h2>
+        <p>We are committed to creating web content that is accessible to everyone. Our goal is to ensure that our website is usable by people of all abilities.</p>
+        <img src="decorative-image.jpg" alt="" class="decorative-image" aria-hidden="true">
+        <p>This image is purely decorative and does not convey any meaningful information, hence it has an empty alt attribute and is hidden from assistive technologies using <code>aria-hidden="true"</code>.</p>
+    </main>
+    <footer>
+        <p>&copy; 2025 Accessible Web Inc.</p>
+    </footer>
+    <script>
+        // JavaScript for any interactive elements can be added here
+    </script>
+</body>
+</html>

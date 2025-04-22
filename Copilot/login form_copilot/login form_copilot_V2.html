@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessible Login Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        .login-container h1 {
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group input:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+        .form-group .password-container {
+            display: flex;
+            align-items: center;
+        }
+        .form-group .password-container input {
+            flex: 1;
+        }
+        .form-group .password-container button {
+            margin-left: 0.5rem;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 4px;
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+        }
+        .form-group .password-container button:focus {
+            outline: 2px solid #0056b3;
+        }
+        .form-group .password-container button:hover {
+            background-color: #0056b3;
+        }
+        .form-group button {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 4px;
+            background-color: #007BFF;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .form-group button:focus {
+            outline: 2px solid #0056b3;
+        }
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+        .form-group .error {
+            color: red;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container" role="form" aria-labelledby="login-title">
+        <h1 id="login-title">Login</h1>
+        <form id="login-form" novalidate>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required aria-required="true" aria-describedby="username-error">
+                <span id="username-error" class="error" aria-live="polite"></span>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="password-container">
+                    <input type="password" id="password" name="password" required aria-required="true" aria-describedby="password-error">
+                    <button type="button" id="toggle-password" aria-label="Show password">Show</button>
+                </div>
+                <span id="password-error" class="error" aria-live="polite"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit">Login</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let valid = true;
+
+            const username = document.getElementById('username');
+            const password = document.getElementById('password');
+            const usernameError = document.getElementById('username-error');
+            const passwordError = document.getElementById('password-error');
+
+            if (!username.value) {
+                valid = false;
+                usernameError.textContent = 'Username is required.';
+                username.setAttribute('aria-invalid', 'true');
+            } else {
+                usernameError.textContent = '';
+                username.removeAttribute('aria-invalid');
+            }
+
+            if (!password.value) {
+                valid = false;
+                passwordError.textContent = 'Password is required.';
+                password.setAttribute('aria-invalid', 'true');
+            } else {
+                passwordError.textContent = '';
+                password.removeAttribute('aria-invalid');
+            }
+
+            if (valid) {
+                alert('Form submitted successfully!');
+                // Here you can add the logic to handle the form submission, e.g., sending data to the server.
+            }
+        });
+
+        document.getElementById('toggle-password').addEventListener('click', function() {
+            const passwordField = document.getElementById('password');
+            const toggleButton = document.getElementById('toggle-password');
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                toggleButton.textContent = 'Hide';
+                toggleButton.setAttribute('aria-label', 'Hide password');
+            } else {
+                passwordField.type = 'password';
+                toggleButton.textContent = 'Show';
+                toggleButton.setAttribute('aria-label', 'Show password');
+            }
+        });
+
+        document.getElementById('toggle-password').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                this.click();
+            }
+        });
+    </script>
+</body>
+</html>

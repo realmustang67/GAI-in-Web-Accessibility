@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tabindex Accessibility Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+
+    header, main, footer {
+      margin-bottom: 2rem;
+    }
+
+    h1, h2 {
+      color: #2c3e50;
+    }
+
+    button, a {
+      padding: 10px 15px;
+      margin: 5px;
+      border: 2px solid #2980b9;
+      background-color: #3498db;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:focus, a:focus {
+      outline: 3px solid #f1c40f;
+    }
+
+    .non-tabbable {
+      background-color: #ccc;
+      border-color: #aaa;
+      color: #333;
+      cursor: not-allowed;
+    }
+
+    .description {
+      max-width: 700px;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      left: -10000px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <header role="banner">
+    <h1>Tabindex and Keyboard Navigation Accessibility</h1>
+    <p class="description">
+      This page demonstrates how elements with a negative <code>tabindex</code> value are not focusable using the keyboard. 
+      Elements without a <code>tabindex</code> or with a non-negative value are included in the natural tab order.
+    </p>
+  </header>
+
+  <main role="main">
+    <section aria-labelledby="example-heading">
+      <h2 id="example-heading">Focusable vs Non-Focusable Elements</h2>
+
+      <p>Try navigating with the <kbd>Tab</kbd> key to test which elements are focusable:</p>
+
+      <!-- Focusable button -->
+      <button type="button">Focusable Button</button>
+
+      <!-- Non-focusable button via tabindex="-1" -->
+      <button type="button" tabindex="-1" class="non-tabbable" aria-disabled="true">
+        Not Focusable (tabindex="-1")
+      </button>
+
+      <!-- Focusable link -->
+      <a href="#more-info">Learn More</a>
+
+      <!-- Non-focusable link via tabindex="-1" -->
+      <a href="#not-reachable" tabindex="-1" class="non-tabbable" aria-disabled="true">
+        Hidden from Tab Order
+      </a>
+
+      <!-- Button to programmatically focus on a non-tabbable element -->
+      <p>
+        <button type="button" onclick="focusHiddenLink()">Click to Focus Hidden Link via Script</button>
+      </p>
+    </section>
+
+    <!-- Visually hidden notice for screen readers -->
+    <div class="visually-hidden" role="status" aria-live="polite" id="sr-status"></div>
+  </main>
+
+  <footer role="contentinfo">
+    <p>&copy; 2025 Accessible Web Components Demo</p>
+  </footer>
+
+  <script>
+    function focusHiddenLink() {
+      const link = document.querySelector('a[tabindex="-1"]');
+      link.focus();
+
+      // Optional: Provide screen reader feedback
+      const status = document.getElementById('sr-status');
+      status.textContent = 'Programmatically moved focus to non-tabbable link.';
+    }
+  </script>
+</body>
+</html>

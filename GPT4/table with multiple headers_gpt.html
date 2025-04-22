@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Accessible Climate Data Table</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 2rem;
+      background-color: #f9f9f9;
+      color: #222;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    caption {
+      text-align: left;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 0.75rem;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f0f0f0;
+    }
+
+    tr:focus-within {
+      outline: 3px solid #007acc;
+      background-color: #eef6fb;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <h1>Annual Climate Data Report</h1>
+  <p>This table shows average monthly climate data for major cities including temperature and precipitation.</p>
+
+  <table role="table" aria-describedby="climate-description">
+    <caption id="climate-description">Average monthly temperature and precipitation for 2024.</caption>
+    <thead>
+      <tr>
+        <th rowspan="2" scope="col">City</th>
+        <th colspan="2" scope="colgroup">January</th>
+        <th colspan="2" scope="colgroup">February</th>
+      </tr>
+      <tr>
+        <th id="jan-temp" scope="col">Temp (°C)</th>
+        <th id="jan-rain" scope="col">Rain (mm)</th>
+        <th id="feb-temp" scope="col">Temp (°C)</th>
+        <th id="feb-rain" scope="col">Rain (mm)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr tabindex="0">
+        <th scope="row" id="city-ny">New York</th>
+        <td headers="city-ny jan-temp">0</td>
+        <td headers="city-ny jan-rain">78</td>
+        <td headers="city-ny feb-temp">2</td>
+        <td headers="city-ny feb-rain">64</td>
+      </tr>
+      <tr tabindex="0">
+        <th scope="row" id="city-la">Los Angeles</th>
+        <td headers="city-la jan-temp">13</td>
+        <td headers="city-la jan-rain">79</td>
+        <td headers="city-la feb-temp">14</td>
+        <td headers="city-la feb-rain">89</td>
+      </tr>
+      <tr tabindex="0">
+        <th scope="row" id="city-tokyo">Tokyo</th>
+        <td headers="city-tokyo jan-temp">5</td>
+        <td headers="city-tokyo jan-rain">52</td>
+        <td headers="city-tokyo feb-temp">6</td>
+        <td headers="city-tokyo feb-rain">56</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    // Allow arrow key navigation between rows
+    const rows = document.querySelectorAll("tbody tr");
+
+    rows.forEach((row, index) => {
+      row.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          const next = rows[index + 1];
+          if (next) next.focus();
+        }
+        if (e.key === "ArrowUp") {
+          e.preventDefault();
+          const prev = rows[index - 1];
+          if (prev) prev.focus();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

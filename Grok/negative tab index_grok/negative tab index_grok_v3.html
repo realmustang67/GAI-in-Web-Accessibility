@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A demonstration of tabindex usage for accessibility, showing how negative tabindex affects keyboard navigation.">
+  <title>Tabindex Accessibility Demonstration</title>
+  <style>
+    /* CSS for layout and readability */
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      color: #333;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #1a73e8;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    p {
+      margin: 1rem 0;
+    }
+
+    .demo-section {
+      border: 1px solid #ccc;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      background-color: #f9f9f9;
+    }
+
+    /* Styling for interactive elements */
+    .demo-element {
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+      border: 2px solid transparent;
+      display: inline-block;
+    }
+
+    .demo-element:focus {
+      outline: 3px solid #1a73e8;
+      outline-offset: 2px;
+      border-color: #1a73e8;
+    }
+
+    .tabindex-positive {
+      background-color: #e8f0fe;
+    }
+
+    .tabindex-negative {
+      background-color: #fce8e6;
+    }
+
+    button {
+      background-color: #1a73e8;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    button:hover {
+      background-color: #1557b0;
+    }
+
+    button:focus {
+      outline: 3px solid #1a73e8;
+      outline-offset: 2px;
+    }
+
+    /* Ensure sufficient contrast for accessibility */
+    a {
+      color: #1a73e8;
+      text-decoration: underline;
+    }
+
+    a:focus {
+      outline: 3px solid #1a73e8;
+      outline-offset: 2px;
+    }
+
+    /* Visually hidden class for screen readers */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Semantic header for the page -->
+  <header>
+    <h1>Tabindex Accessibility Demonstration</h1>
+    <p>Explore how tabindex affects keyboard navigation on a webpage.</p>
+  </header>
+
+  <main>
+    <!-- Introduction section -->
+    <section aria-labelledby="intro-heading">
+      <h2 id="intro-heading">Understanding Tabindex</h2>
+      <p>
+        The <code>tabindex</code> attribute controls whether an element can be focused using the keyboard's Tab key.
+        Elements with <code>tabindex="0"</code> or no tabindex (for naturally focusable elements like buttons and links)
+        are included in the tab order. Elements with <code>tabindex="-1"</code> cannot be tabbed to but can be focused
+        programmatically, such as via JavaScript.
+      </p>
+      <p>
+        Below, you'll interact with elements to see the difference. Use the Tab key to navigate and observe which elements
+        receive focus.
+      </p>
+    </section>
+
+    <!-- Demo section for tabindex="0" or no tabindex -->
+    <section class="demo-section" aria-labelledby="positive-tabindex-heading">
+      <h2 id="positive-tabindex-heading">Tabbable Elements (tabindex="0" or none)</h2>
+      <p>
+        These elements can be focused using the Tab key because they either have <code>tabindex="0"</code> or are naturally
+        focusable (e.g., buttons, links).
+      </p>
+      <!-- Naturally focusable elements -->
+      <div>
+        <a href="#main-content" class="demo-element">Skip to main content</a>
+      </div>
+      <div>
+        <button class="demo-element">Click me (no tabindex)</button>
+      </div>
+      <!-- Element with explicit tabindex="0" -->
+      <div class="demo-element tabindex-positive" tabindex="0" role="button" aria-label="Read article">
+        Article Preview (tabindex="0")
+      </div>
+    </section>
+
+    <!-- Demo section for tabindex="-1" -->
+    <section class="demo-section" aria-labelledby="negative-tabindex-heading">
+      <h2 id="negative-tabindex-heading">Non-Tabbable Elements (tabindex="-1")</h2>
+      <p>
+        These elements have <code>tabindex="-1"</code>, so they cannot be focused with the Tab key. However, they can be
+        focused programmatically using JavaScript. Try clicking the button below to set focus on the non-tabbable element.
+      </p>
+      <div class="demo-element tabindex-negative" tabindex="-1" id="non-tabbable" role="region" aria-label="Article summary">
+        Article Summary (tabindex="-1")
+      </div>
+      <button id="focus-button">Focus the Non-Tabbable Element</button>
+      <!-- Screen reader feedback for focus action -->
+      <span id="focus-feedback" class="sr-only" role="status"></span>
+    </section>
+
+    <!-- Additional information -->
+    <section aria-labelledby="learn-more-heading">
+      <h2 id="learn-more-heading">Learn More</h2>
+      <p>
+        To understand more about accessibility and tabindex, visit:
+        <ul>
+          <li><a href="https://www.w3.org/WAI/ARIA/apg/">W3C ARIA Authoring Practices Guide</a></li>
+          <li><a href="https://webaim.org/techniques/keyboard/tabindex">WebAIM Tabindex Guide</a></li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex">MDN Tabindex Documentation</a></li>
+        </ul>
+      </p>
+    </section>
+  </main>
+
+  <!-- Semantic footer -->
+  <footer>
+    <p>&copy; 2025 Accessibility Demo. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // JavaScript for interactivity
+    const focusButton = document.getElementById('focus-button');
+    const nonTabbableElement = document.getElementById('non-tabbable');
+    const focusFeedback = document.getElementById('focus-feedback');
+
+    focusButton.addEventListener('click', () => {
+      // Programmatically focus the tabindex="-1" element
+      nonTabbableElement.focus();
+      // Provide screen reader feedback
+      focusFeedback.textContent = 'Focus moved to the article summary.';
+      // Clear feedback after a delay to avoid clutter
+      setTimeout(() => {
+        focusFeedback.textContent = '';
+      }, 3000);
+    });
+
+    // Ensure keyboard accessibility for the role="button" element
+    const articlePreview = document.querySelector('[role="button"]');
+    articlePreview.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        alert('Article preview activated!');
+      }
+    });
+  </script>
+</body>
+</html>
