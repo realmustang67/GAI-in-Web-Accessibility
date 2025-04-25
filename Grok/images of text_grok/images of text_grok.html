@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Learn about web accessibility and the Web Accessibility Initiative (WAI).">
+  <title>Web Accessibility Resources</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background-color: #f4f4f4;
+    }
+    header {
+      background-color: #003087;
+      padding: 1rem;
+      text-align: center;
+    }
+    .logo {
+      max-width: 300px;
+      height: auto;
+    }
+    nav {
+      background-color: #005a9c;
+      padding: 0.5rem;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      display: block;
+    }
+    nav a:hover, nav a:focus {
+      background-color: #003087;
+      outline: 2px solid #fff;
+      outline-offset: 2px;
+    }
+    main {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    h1, h2 {
+      color: #003087;
+    }
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: #003087;
+      color: #fff;
+      padding: 0.5rem;
+      z-index: 100;
+    }
+    .skip-link:focus {
+      top: 0;
+    }
+    /* Ensure sufficient color contrast (WCAG 2.1) */
+    a {
+      color: #005a9c;
+    }
+    a:hover, a:focus {
+      color: #003087;
+      outline: 2px solid #003087;
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <header>
+    <img src="wai.png" alt="Web Accessibility Initiative (WAI) logo" class="logo">
+  </header>
+  <nav role="navigation" aria-label="Main navigation">
+    <ul>
+      <li><a href="#home" aria-current="page">Home</a></li>
+      <li><a href="#guidelines">Guidelines</a></li>
+      <li><a href="#resources">Resources</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+  <main id="main-content">
+    <h1>Understanding Web Accessibility</h1>
+    <section>
+      <h2>What is Web Accessibility?</h2>
+      <p>
+        Web accessibility ensures that websites, tools, and technologies are designed and developed so that people with disabilities can use them. This includes individuals with visual, auditory, physical, speech, cognitive, and neurological disabilities.
+      </p>
+      <p>
+        The <a href="https://www.w3.org/WAI/">Web Accessibility Initiative (WAI)</a>, part of the World Wide Web Consortium (W3C), develops guidelines and resources to make the web more accessible. Their Web Content Accessibility Guidelines (WCAG) are widely adopted standards for accessibility.
+      </p>
+    </section>
+    <section>
+      <h2>Why It Matters</h2>
+      <p>
+        Accessibility benefits everyone, not just those with disabilities. It improves user experience, ensures legal compliance, and expands your audience. For example, captions for videos help not only deaf users but also those in noisy environments.
+      </p>
+    </section>
+  </main>
+  <script>
+    // Ensure the skip link works smoothly
+    document.querySelector('.skip-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      target.setAttribute('tabindex', '-1');
+      target.focus();
+    });
+  </script>
+</body>
+</html>
