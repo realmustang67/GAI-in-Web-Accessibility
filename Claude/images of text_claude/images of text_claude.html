@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Accessibility Initiative Resources</title>
+    <style>
+        /* Base styling */
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #004080;
+            --text-color: #333333;
+            --background-color: #f5f5f5;
+            --link-focus-color: #ff8c00;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            padding: 0;
+            margin: 0;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px;
+            z-index: 100;
+            transition: top 0.3s;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        header {
+            background-color: white;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        main {
+            padding: 2rem 0;
+        }
+
+        .wai-branding {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .wai-logo {
+            margin-right: 1.5rem;
+            border: 1px solid #ddd;
+        }
+
+        h1 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+
+        a:hover, a:focus {
+            color: var(--secondary-color);
+            outline: 2px solid var(--link-focus-color);
+            outline-offset: 2px;
+        }
+
+        .resources {
+            margin: 2rem 0;
+        }
+
+        .resource-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .resource-list li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .resource-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+
+        .accessibility-toggle {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 1rem 0;
+        }
+
+        .accessibility-toggle:hover, .accessibility-toggle:focus {
+            background-color: var(--secondary-color);
+            outline: 2px solid var(--link-focus-color);
+            outline-offset: 2px;
+        }
+
+        .high-contrast {
+            background-color: black;
+            color: white;
+        }
+
+        .high-contrast a {
+            color: #ffff00;
+        }
+
+        .high-contrast header {
+            background-color: #222;
+            color: white;
+        }
+
+        .high-contrast h1, .high-contrast h2 {
+            color: #ffff00;
+        }
+
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 1.5rem 0;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .wai-branding {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .wai-logo {
+                margin-bottom: 1rem;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <header>
+        <div class="container">
+            <div class="wai-branding">
+                <img 
+                    src="wai.png" 
+                    alt="Web Accessibility Initiative (WAI) logo"
+                    class="wai-logo"
+                    width="155" 
+                    height="53">
+                <h1>Web Accessibility Initiative Resources</h1>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content" class="container">
+        <section aria-labelledby="intro-heading">
+            <h2 id="intro-heading">Making the Web Accessible for Everyone</h2>
+            <p>The Web Accessibility Initiative (WAI) develops strategies, guidelines, and resources to help make the web accessible to people with disabilities. WAI is part of the World Wide Web Consortium (W3C), which develops web standards like HTML and CSS.</p>
+            
+            <p>Web accessibility means that websites, tools, and technologies are designed and developed so that people with disabilities can use them. More specifically, people can:</p>
+            <ul class="resource-list">
+                <li>perceive, understand, navigate, and interact with the Web</li>
+                <li>contribute to the Web</li>
+            </ul>
+            
+            <button id="contrast-toggle" class="accessibility-toggle" aria-pressed="false">
+                Toggle High Contrast Mode
+            </button>
+        </section>
+
+        <section class="resources" aria-labelledby="resources-heading">
+            <h2 id="resources-heading">Key Accessibility Resources</h2>
+            <ul class="resource-list">
+                <li><a href="https://www.w3.org/WAI/standards-guidelines/wcag/" target="_blank" rel="noopener noreferrer">Web Content Accessibility Guidelines (WCAG)</a> - The international standard for making web content accessible.</li>
+                <li><a href="https://www.w3.org/WAI/ARIA/apg/" target="_blank" rel="noopener noreferrer">ARIA Authoring Practices Guide</a> - Provides guidance on how to use ARIA to create accessible web applications.</li>
+                <li><a href="https://www.w3.org/WAI/fundamentals/accessibility-principles/" target="_blank" rel="noopener noreferrer">Accessibility Principles</a> - Introduction to the requirements for web accessibility.</li>
+                <li><a href="https://www.w3.org/WAI/planning/involving-users/" target="_blank" rel="noopener noreferrer">Involving Users in Web Accessibility</a> - How to include people with disabilities in your design process.</li>
+            </ul>
+        </section>
+
+        <section aria-labelledby="tools-heading">
+            <h2 id="tools-heading">Evaluation Tools</h2>
+            <p>WAI provides resources to help evaluate websites for accessibility:</p>
+            <ul class="resource-list" id="tool-list">
+                <li><a href="https://www.w3.org/WAI/ER/tools/" target="_blank" rel="noopener noreferrer">Web Accessibility Evaluation Tools List</a> - Comprehensive list of tools for testing accessibility.</li>
+                <li><a href="https://www.w3.org/WAI/test-evaluate/preliminary/" target="_blank" rel="noopener noreferrer">Easy Checks</a> - A first review of web accessibility.</li>
+                <li><a href="https://validator.w3.org/" target="_blank" rel="noopener noreferrer">HTML Validator</a> - Check your HTML for conformance with web standards.</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>For more information about web accessibility, visit the <a href="https://www.w3.org/WAI/" target="_blank" rel="noopener noreferrer">W3C Web Accessibility Initiative website</a>.</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for toggle high contrast mode
+        document.addEventListener('DOMContentLoaded', function() {
+            const contrastToggle = document.getElementById('contrast-toggle');
+            
+            // Set up the contrast toggle button
+            contrastToggle.addEventListener('click', function() {
+                const isPressed = contrastToggle.getAttribute('aria-pressed') === 'true';
+                const newState = !isPressed;
+                
+                contrastToggle.setAttribute('aria-pressed', newState);
+                
+                if (newState) {
+                    document.body.classList.add('high-contrast');
+                    contrastToggle.textContent = 'Turn Off High Contrast Mode';
+                    // Announce to screen readers
+                    announceChange('High contrast mode enabled');
+                } else {
+                    document.body.classList.remove('high-contrast');
+                    contrastToggle.textContent = 'Toggle High Contrast Mode';
+                    // Announce to screen readers
+                    announceChange('High contrast mode disabled');
+                }
+            });
+            
+            // Set up keyboard navigation for resource links
+            const toolList = document.getElementById('tool-list');
+            const links = toolList.querySelectorAll('a');
+            
+            links.forEach(function(link, index) {
+                link.addEventListener('keydown', function(e) {
+                    // If arrow down is pressed and not on last link
+                    if (e.key === 'ArrowDown' && index < links.length - 1) {
+                        e.preventDefault();
+                        links[index + 1].focus();
+                    }
+                    // If arrow up is pressed and not on first link
+                    else if (e.key === 'ArrowUp' && index > 0) {
+                        e.preventDefault();
+                        links[index - 1].focus();
+                    }
+                });
+            });
+            
+            // Function to announce changes to screen reader users
+            function announceChange(message) {
+                const announcement = document.createElement('div');
+                announcement.setAttribute('aria-live', 'polite');
+                announcement.setAttribute('aria-atomic', 'true');
+                announcement.classList.add('sr-only');
+                announcement.textContent = message;
+                document.body.appendChild(announcement);
+                
+                // Remove after announcement is read
+                setTimeout(function() {
+                    document.body.removeChild(announcement);
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
