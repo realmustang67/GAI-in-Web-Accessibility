@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About the Web Accessibility Initiative</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
+    header {
+      background-color: #005a9c;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    header img {
+      max-width: 250px;
+      height: auto;
+    }
+
+    main {
+      padding: 2rem;
+      background-color: white;
+    }
+
+    section {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    a {
+      color: #005a9c;
+    }
+
+    a:focus,
+    button:focus {
+      outline: 3px solid #ffbf47;
+      outline-offset: 2px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #eee;
+      font-size: 0.9rem;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      left: -10000px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <header role="banner">
+    <a href="https://www.w3.org/WAI/" aria-label="Visit the WAI homepage">
+      <img src="wai.png" alt="Web Accessibility Initiative (WAI) logo" />
+    </a>
+    <h1>Welcome to the Web Accessibility Initiative</h1>
+  </header>
+
+  <main role="main">
+    <section aria-labelledby="about-wai">
+      <h2 id="about-wai">What is the Web Accessibility Initiative?</h2>
+      <p>
+        The <strong>Web Accessibility Initiative (WAI)</strong>, developed by the W3C, provides strategies,
+        guidelines, and resources to make the web accessible to people with disabilities. WAI is an international effort
+        with support from industry, disability organizations, governments, and research labs.
+      </p>
+
+      <p>
+        Learn more at
+        <a href="https://www.w3.org/WAI/" target="_blank" rel="noopener noreferrer">
+          w3.org/WAI
+        </a>.
+      </p>
+    </section>
+
+    <section aria-labelledby="standards">
+      <h2 id="standards">Accessibility Standards and Resources</h2>
+      <ul>
+        <li><a href="https://www.w3.org/TR/WCAG21/">WCAG 2.1 Guidelines</a></li>
+        <li><a href="https://www.w3.org/WAI/ARIA/apg/">ARIA Authoring Practices Guide</a></li>
+        <li><a href="https://webaim.org/">WebAIM Accessibility</a></li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility">MDN: Accessibility</a></li>
+        <li><a href="https://www.ibm.com/able/">IBM Accessibility Resources</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer role="contentinfo">
+    <p>&copy; 2025 Web Accessibility Example Page. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // JavaScript: Skip to content (keyboard navigation enhancement)
+    const skipLink = document.createElement('a');
+    skipLink.href = "#about-wai";
+    skipLink.className = "visually-hidden";
+    skipLink.textContent = "Skip to main content";
+    document.body.insertBefore(skipLink, document.body.firstChild);
+  </script>
+</body>
+</html>

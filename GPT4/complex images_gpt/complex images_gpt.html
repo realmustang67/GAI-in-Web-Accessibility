@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Website Visitor Statistics - Q1 2014</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      background-color: #f9f9f9;
+      color: #333;
+      padding: 2rem;
+    }
+    main {
+      max-width: 960px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+    }
+    .chart-section {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .chart-section img {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #ccc;
+    }
+    .chart-description {
+      display: none;
+      margin-top: 1rem;
+      background-color: #fff;
+      padding: 1rem;
+      border: 1px solid #ddd;
+    }
+    button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+    }
+    caption {
+      caption-side: top;
+      font-weight: bold;
+      text-align: left;
+      margin-bottom: 0.5rem;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      text-align: center;
+    }
+    th {
+      background-color: #f0f0f0;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main role="main">
+    <h1 id="chart-title">2014 First Quarter Visitors to example.com Websites</h1>
+
+    <section class="chart-section" aria-labelledby="chart-title">
+      <img src="chart.png" alt="Bar chart showing January–March 2014 visitor numbers (in thousands) for Sites 1, 2, and 3, including quarterly totals." role="img" />
+      <button id="toggle-description" aria-expanded="false" aria-controls="chart-description">Show Chart Description</button>
+
+      <div id="chart-description" class="chart-description" role="region" aria-live="polite">
+        <p>This chart compares the number of visitors (in thousands) to three example.com websites (Site 1, Site 2, and Site 3) during the first quarter of 2014.</p>
+        <ul>
+          <li><strong>Site 1:</strong> Jan: 135k, Feb: 120k, Mar: 100k, Qtr Total: 355k</li>
+          <li><strong>Site 2:</strong> Jan: 110k, Feb: 115k, Mar: 110k, Qtr Total: 335k</li>
+          <li><strong>Site 3:</strong> Jan: 95k, Feb: 100k, Mar: 120k, Qtr Total: 315k</li>
+        </ul>
+      </div>
+    </section>
+
+    <section aria-labelledby="data-table-heading">
+      <h2 id="data-table-heading">Tabular Data Representation</h2>
+      <table role="table" aria-describedby="chart-title">
+        <caption>Quarterly Visitor Data for example.com (in thousands)</caption>
+        <thead>
+          <tr>
+            <th scope="col">Month</th>
+            <th scope="col">Site 1</th>
+            <th scope="col">Site 2</th>
+            <th scope="col">Site 3</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">January</th>
+            <td>135</td>
+            <td>110</td>
+            <td>95</td>
+          </tr>
+          <tr>
+            <th scope="row">February</th>
+            <td>120</td>
+            <td>115</td>
+            <td>100</td>
+          </tr>
+          <tr>
+            <th scope="row">March</th>
+            <td>100</td>
+            <td>110</td>
+            <td>120</td>
+          </tr>
+          <tr>
+            <th scope="row">Qtr Total</th>
+            <td>355</td>
+            <td>335</td>
+            <td>315</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script>
+    const btn = document.getElementById('toggle-description');
+    const desc = document.getElementById('chart-description');
+
+    btn.addEventListener('click', () => {
+      const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!isExpanded));
+      desc.style.display = isExpanded ? 'none' : 'block';
+      btn.textContent = isExpanded ? 'Show Chart Description' : 'Hide Chart Description';
+    });
+  </script>
+</body>
+</html>
